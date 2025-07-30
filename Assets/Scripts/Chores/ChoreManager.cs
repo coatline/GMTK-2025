@@ -30,7 +30,10 @@ public class ChoreManager : Singleton<ChoreManager>
         }
 
         unassignedChores = new List<ChoreData>(everyChore);
+    }
 
+    private void Start()
+    {
         GameManager.I.NewDay += GameManager_NewDay;
     }
 

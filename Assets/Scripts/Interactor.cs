@@ -3,8 +3,8 @@ using UnityEngine;
 public class Interactor : MonoBehaviour
 {
     [SerializeField] Camera cam;
-    [SerializeField] ObjectHolder playerHand;
     [SerializeField] GameObject interactIndicator;
+    [SerializeField] PlayerController playerController;
 
     IInteractable currentlyHighlighted;
 
@@ -36,6 +36,6 @@ public class Interactor : MonoBehaviour
 
     bool CanInteract() => CantInteract == false && currentlyHighlighted != null && currentlyHighlighted.CanInteract(this);
 
-    public ObjectHolder ObjectHolder => playerHand;
+    public PlayerController PlayerController => playerController;
     public bool CantInteract { get; set; }
 }

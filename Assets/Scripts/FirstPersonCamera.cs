@@ -1,21 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
-public class FPCamera : MonoBehaviour
+public class FirstPersonCamera : MonoBehaviour
 {
     [SerializeField] float cameraPitchLimit = 80;
     [SerializeField] float lookSensitivity = 1;
     [SerializeField] float smoothing = 1;
+    [SerializeField] Transform playerMesh;
     [SerializeField] Camera cam;
 
     Vector2 currentLookingPosition;
     Vector2 smoothedVelocity;
 
 
-    /// <param name="inputValues">Input.GetAxisRaw("Mouse X"), ...</param>
-    public void RotateCamera(Vector2 inputValues)
+    public void SetCurrentLookingPosition(Vector2 lookingPosition)
+    {
+        currentLookingPosition = lookingPosition;
+    }
+
+    public void SetInputValues(Vector2 inputValues)
     {
         inputValues = Vector2.Scale(inputValues, new Vector2(smoothing * lookSensitivity, smoothing * lookSensitivity));
 
@@ -28,11 +30,6 @@ public class FPCamera : MonoBehaviour
         currentLookingPosition.y = Mathf.Clamp(currentLookingPosition.y, -cameraPitchLimit, cameraPitchLimit);
 
         cam.transform.localRotation = Quaternion.AngleAxis(-currentLookingPosition.y, Vector3.right);
-        transform.localRotation = Quaternion.AngleAxis(currentLookingPosition.x, transform.up);
+        playerMesh.localRotation = Quaternion.AngleAxis(currentLookingPosition.x, transform.up);
     }
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawLine(cam.transform.position, cam.transform.position + (cam.transform.forward * 10));
-    //}
 }

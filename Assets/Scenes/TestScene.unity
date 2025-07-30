@@ -1364,6 +1364,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2107360035132b43904d7485a885dfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursor: {fileID: 1617063158}
+  moneyText: {fileID: 493439958}
 --- !u!1 &493439956
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,6 +1534,37 @@ Transform:
   - {fileID: 2001193549}
   - {fileID: 832575519}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &626254225
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 626254226}
+  m_Layer: 0
+  m_Name: CursorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &626254226
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626254225}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2131236061}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &661061479
 GameObject:
@@ -2901,13 +2934,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1199383343}
+  - component: {fileID: 1199383351}
   - component: {fileID: 1199383346}
-  - component: {fileID: 1199383345}
   - component: {fileID: 1199383344}
   - component: {fileID: 1199383349}
   - component: {fileID: 1199383350}
   - component: {fileID: 1199383348}
   - component: {fileID: 1199383347}
+  - component: {fileID: 1199383352}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2950,22 +2984,6 @@ MonoBehaviour:
   runSpeed: 500
   flySpeed: 1
   rb: {fileID: 1199383347}
---- !u!114 &1199383345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1199383342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 829a011733e9e114c99f92f42902d3d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerMovement: {fileID: 1199383344}
-  interactor: {fileID: 1199383349}
-  fpCamera: {fileID: 1199383346}
-  objectHolder: {fileID: 1199383350}
 --- !u!114 &1199383346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2981,6 +2999,7 @@ MonoBehaviour:
   cameraPitchLimit: 80
   lookSensitivity: 1
   smoothing: 1
+  playerMesh: {fileID: 0}
   cam: {fileID: 330585545}
 --- !u!54 &1199383347
 Rigidbody:
@@ -3034,8 +3053,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 330585545}
-  playerHand: {fileID: 1199383350}
   interactIndicator: {fileID: 1357294757}
+  playerController: {fileID: 1199383351}
 --- !u!114 &1199383350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3050,6 +3069,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hand: {fileID: 1818371904}
   cam: {fileID: 330585545}
+--- !u!114 &1199383351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199383342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf94d2be1d8945e4fa1e008068b078ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHand: {fileID: 1199383350}
+  playerMovement: {fileID: 0}
+  interactor: {fileID: 1199383349}
+  firstPersonCamera: {fileID: 0}
+  objectHolder: {fileID: 0}
+  playerController: {fileID: 0}
+--- !u!114 &1199383352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199383342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1212623096
 GameObject:
   m_ObjectHideFlags: 0
@@ -3722,7 +3789,6 @@ GameObject:
   - component: {fileID: 1617063156}
   - component: {fileID: 1617063155}
   - component: {fileID: 1617063158}
-  - component: {fileID: 1617063157}
   m_Layer: 5
   m_Name: Cursor
   m_TagString: Untagged
@@ -3787,21 +3853,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1617063153}
   m_CullTransparentMesh: 1
---- !u!114 &1617063157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617063153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37adb765aab3a9e47806c69a912bc165, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cursor: {fileID: 1617063154}
-  canvas: {fileID: 928047309}
-  eventSystem: {fileID: 10360428}
 --- !u!114 &1617063158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3814,8 +3865,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6099e1b551a4c43a8ec031b790376f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursor: {fileID: 1617063154}
+  canvas: {fileID: 928047309}
   canvasRect: {fileID: 928047306}
+  cursor: {fileID: 1617063154}
+  raycaster: {fileID: 928047307}
+  eventSystem: {fileID: 10360428}
   speed: 1000
 --- !u!1 &1624229656
 GameObject:
@@ -4289,7 +4343,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 626254226}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2145751029

@@ -49,7 +49,7 @@ public class HoldableObject : MonoBehaviour, IInteractable
 
     public void Interact(Interactor interactor)
     {
-        interactor.ObjectHolder.Pickup(this);
+        interactor.PlayerController.ObjectHolder.Pickup(this);
     }
 
     private void OnDestroy()
@@ -60,5 +60,5 @@ public class HoldableObject : MonoBehaviour, IInteractable
     public virtual void StartUsing(Vector2 direction) { }
     public virtual void ContinueUsing(Vector3 direction) { }
     public virtual void FinishUsing(Vector3 direction) { }
-    public bool CanInteract(Interactor interactor) => interactor.ObjectHolder.HasItem == false;
+    public bool CanInteract(Interactor interactor) => interactor.PlayerController.ObjectHolder.HasItem == false;
 }

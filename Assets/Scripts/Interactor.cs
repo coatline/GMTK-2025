@@ -37,5 +37,5 @@ public class Interactor : MonoBehaviour
     bool CanInteract() => CantInteract == false && currentlyHighlighted != null && currentlyHighlighted.CanInteract(this);
 
     public ObjectHolder ObjectHolder => playerHand;
-    public bool CantInteract { get; private set; }
+    public bool CantInteract { get; set; }
 }

@@ -19,5 +19,6 @@ public abstract class ChoreStation : MonoBehaviour
     protected virtual void Complete()
     {
         choreData.Complete();
+        GameManager.I.Money += choreType.moneyOnComplete;
     }
 }

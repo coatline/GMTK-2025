@@ -4,28 +4,28 @@ public class WaterPlantChore : ChoreStation
 {
     [SerializeField] Plant plant;
 
-    private void Plant_Watered(float percentage)
-    {
-        if (percentage >= 0.99f)
-            Complete();
-
-        plant.Watered -= Plant_Watered;
-    }
+    bool watching;
 
     protected override void NewDay()
     {
+        if (watching) return;
+
         plant.Watered += Plant_Watered;
+        watching = true;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Plant_Watered(float percentage)
     {
+        choreData.PercentageComplete = percentage;
 
+        if (percentage >= 0.99f)
+            Complete();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Complete()
     {
-
+        plant.Watered -= Plant_Watered;
+        watching = false;
+        base.Complete();
     }
 }

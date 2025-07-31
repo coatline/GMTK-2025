@@ -15,8 +15,10 @@ public class SweepChore : ChoreStation
 
     protected override void NewDay()
     {
+        print(totalLeaves);
+
         // Place leaves
-        totalLeaves = GetTotalLeaves();
+        totalLeaves += GetTotalLeaves();
         remainingLeaves = totalLeaves;
 
         for (int i = 0; i < totalLeaves; i++)
@@ -41,5 +43,11 @@ public class SweepChore : ChoreStation
         for (int i = 0; i < choreData.sequentialMissedDays + 1; i++)
             totalLeaves += Random.Range(minLeavesPerDay, maxLeavesPerDay);
         return totalLeaves;
+    }
+
+    protected override void Complete()
+    {
+        totalLeaves = 0;
+        base.Complete();
     }
 }

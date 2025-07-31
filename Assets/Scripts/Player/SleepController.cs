@@ -4,12 +4,14 @@ using UnityEngine.InputSystem;
 
 public class SleepController : PlayerState
 {
-    [SerializeField] PlayerStateController playerStateController;
-    [SerializeField] CameraAnimator cameraAnimator;
+    const int SLEEP_TIME_MULTIPLIER = 120;
+
     [SerializeField] EyesCloseAnimation sleepAnimation;
     [SerializeField] PlayerController playerController;
+    [SerializeField] CameraAnimator cameraAnimator;
     [SerializeField] Transform characterTransform;
     [SerializeField] PlayerInputs playerInputs;
+    [SerializeField] GameObject sleepingUI;
 
     Bed bed;
 
@@ -21,20 +23,39 @@ public class SleepController : PlayerState
         NotifyActivated();
 
         characterTransform.position = bed.SleepPosition.position;
-
-        sleepAnimation.StartFade(1f, 1f);
-        cameraAnimator.Animate(new CameraCommand(cameraAnimator.NormalPosition, -bed.transform.forward + new Vector3(0, 0.75f, 0), 0.5f));
+        StartCoroutine(GoToSleepAnimation());
     }
 
-    public void SetSleeping()
+    IEnumerator GoToSleepAnimation()
     {
-        sleepAnimation.StartFade(1f, 0.01f);
+        sleepAnimation.StartFade(1f, 1f);
+        cameraAnimator.Animate(new CameraCommand(cameraAnimator.NormalPosition, -bed.transform.forward + new Vector3(0, 0.75f, 0), 0.5f));
+        yield return new WaitForSeconds(1.25f);
+
+        TimeManager.I.SetTimeMultiplier(SLEEP_TIME_MULTIPLIER);
+        sleepingUI.SetActive(true);
+    }
+
+    public void SetSleeping(Bed bed)
+    {
+        this.bed = bed;
+
+        EnableInputs();
+        NotifyActivated();
+        characterTransform.position = bed.SleepPosition.position;
+
+        sleepAnimation.SetAlpha(1f);
         cameraAnimator.Animate(new CameraCommand(cameraAnimator.NormalPosition, -bed.transform.forward + new Vector3(0, 0.75f, 0), 0.01f));
+
+        TimeManager.I.SetTimeMultiplier(SLEEP_TIME_MULTIPLIER);
+        sleepingUI.SetActive(true);
     }
 
     public void GetUp()
     {
         DisableInputs();
+        sleepingUI.SetActive(false);
+        TimeManager.I.SetTimeMultiplier(1);
         characterTransform.position = bed.WakePosition.position;
         StartCoroutine(GetUpAnimation());
     }

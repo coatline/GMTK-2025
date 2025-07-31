@@ -14,6 +14,12 @@ public class EyesCloseAnimation : MonoBehaviour
         fadeRoutine = StartCoroutine(FadeToAlpha(targetAlpha, fadeDuration));
     }
 
+    public void SetAlpha(float alpha)
+    {
+        if (fadeRoutine != null) StopCoroutine(fadeRoutine);
+        C.SetAlpha(visionBlockImage, alpha);
+    }
+
     IEnumerator FadeToAlpha(float targetAlpha, float fadeDuration)
     {
         Color color = visionBlockImage.color;

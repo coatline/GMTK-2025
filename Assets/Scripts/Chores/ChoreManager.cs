@@ -31,19 +31,18 @@ public class ChoreManager : Singleton<ChoreManager>
         }
 
         SetChores(week1Chores);
-    }
-
-    void Start()
-    {
         TimeManager.I.NewDay += NewDay;
     }
 
     void NewDay()
     {
         foreach (ChoreData data in AssignedChores)
-            data.RecordDay();
+            data.DayFinished();
+
+        // Notify chores you missed.
 
         // Update chores list
+        ChoresUpdated?.Invoke();
     }
 
     void SetChores(List<ChoreType> newChores)

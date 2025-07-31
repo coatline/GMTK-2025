@@ -63,7 +63,8 @@ public class PlayerMovement : MonoBehaviour
             StaminaFull?.Invoke();
         }
 
-        //staminaBar.fillAmount = stamina / maxStamina;
+        if (staminaBar)
+            staminaBar.fillAmount = stamina / maxStamina;
 
         Vector3 moveDir = transform.forward * moveInput.y + transform.right * moveInput.x;
 

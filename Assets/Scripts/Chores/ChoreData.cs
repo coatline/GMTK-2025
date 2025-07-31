@@ -33,7 +33,7 @@ public class ChoreData
         Completed?.Invoke(this);
     }
 
-    public void RecordDay()
+    public void DayFinished()
     {
         if (complete)
         {

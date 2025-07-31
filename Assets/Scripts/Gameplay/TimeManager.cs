@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -7,65 +9,54 @@ public class TimeManager : Singleton<TimeManager>
 
     [Header("Time Settings")]
     [Range(0f, 24f)]
-    [SerializeField] float currentHour = 6f; // Start at 6 AM
-    [SerializeField] float timeSpeed; // In-game minutes per real second (60 = 1 hour per minute)
+    [SerializeField] float currentHour;
+    [SerializeField] float timeMultiplier;
 
-    [Header("Bedtime")]
-    [SerializeField] float bedtimeHour = 20f; // 8 PM
+    List<TimedCallback> timedCallbacks;
 
-    [Header("UI")]
-    [SerializeField] TMP_Text currentTimeText;
-    [SerializeField] TMP_Text bedtimeText;
-
-    bool midnightTriggered;
-
-    void Start()
+    private void Start()
     {
-        UpdateBedtimeDisplay();
-    }
-
-    void Update()
-    {
-        UpdateTime();
-        UpdateTimeDisplay();
+        timedCallbacks = new List<TimedCallback>();
+        RegisterDailyFunction(new TimedCallback(24, NewDay));
     }
 
     void UpdateTime()
     {
         float prevHour = currentHour;
-
         currentHour += WorldDeltaTime;
 
-        if (midnightTriggered == false)
+        for (int i = 0; i < timedCallbacks.Count; i++)
         {
-            // Did it just turn midnight?
-            if (prevHour < 24 && currentHour >= 24)
+            TimedCallback cb = timedCallbacks[i];
+            if (!cb.triggeredToday && prevHour < cb.targetHour && currentHour >= cb.targetHour)
             {
-                midnightTriggered = true;
-                NewDay?.Invoke();
+                cb.function?.Invoke();
+                cb.triggeredToday = true;
             }
         }
-        // Loop back to 1AM
-        else if (currentHour >= 25)
+
+        if (currentHour >= 25)
         {
             currentHour = 1;
-            midnightTriggered = false;
+
+            for (int i = 0; i < timedCallbacks.Count; i++)
+                timedCallbacks[i].triggeredToday = false;
         }
+
     }
 
-    void UpdateTimeDisplay()
+    void Update()
     {
-        currentTimeText.text = $"{GetCurrentTimeString()}";
-    }
-
-    void UpdateBedtimeDisplay()
-    {
-        bedtimeText.text = $"Bedtime: {GetTimeString(bedtimeHour)}";
+        UpdateTime();
     }
 
     public float TimeNormalized => currentHour / 24f;
-    public float WorldDeltaTime => Time.deltaTime * (timeSpeed / 60f);
+    public float WorldDeltaTime => Time.deltaTime * (timeMultiplier / 60f);
     public string GetCurrentTimeString() => GetTimeString(currentHour);
+    public void SetTimeMultiplier(float multiplier) => timeMultiplier = multiplier;
+    public void RegisterDailyFunction(TimedCallback timedCallback) => timedCallbacks.Add(timedCallback);
+    public void RemoveTimedCallback(TimedCallback timedCallback) => timedCallbacks.Remove(timedCallback);
+
     public static string GetTimeString(float hour, bool roundToHalfHour = true)
     {
         int totalMinutes = Mathf.FloorToInt(hour * 60f);
@@ -83,7 +74,21 @@ public class TimeManager : Singleton<TimeManager>
         if (displayHour == 0) displayHour = 12;
         int displayMinutes = totalMinutes % 60;
 
-        string ampm = hour < 12f ? "AM" : "PM";
+        string ampm = hour < 12f ? "am" : "pm";
         return $"{displayHour}:{displayMinutes:00}{ampm}";
+    }
+}
+
+public class TimedCallback
+{
+    public float targetHour;
+    public bool triggeredToday;
+    public System.Action function;
+
+    public TimedCallback(float targetHour, Action function, bool triggeredToday = false)
+    {
+        this.triggeredToday = triggeredToday;
+        this.targetHour = targetHour;
+        this.function = function;
     }
 }

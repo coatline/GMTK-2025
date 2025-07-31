@@ -104,7 +104,6 @@ public class PlayerController : PlayerState
 
     void EnableInputs()
     {
-        print("enabling");
         playerInputs.Used += OnUse;
         playerInputs.Dropped += OnDrop;
         playerInputs.Jumped += OnJump;
@@ -117,7 +116,6 @@ public class PlayerController : PlayerState
 
     void DisableInputs()
     {
-        print("Disabling");
         playerInputs.Used -= OnUse;
         playerInputs.Dropped -= OnDrop;
         playerInputs.Jumped -= OnJump;

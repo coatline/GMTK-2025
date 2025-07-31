@@ -12,8 +12,10 @@ public class ChoreUI : MonoBehaviour
     public void Setup(ChoreData chore)
     {
         this.chore = chore;
+
         nameText.text = chore.Type.name;
         descriptionText.text = chore.Type.description;
+
         chore.Completed += Chore_Completed;
         chore.ProgressChanged += Chore_ProgressChanged;
     }

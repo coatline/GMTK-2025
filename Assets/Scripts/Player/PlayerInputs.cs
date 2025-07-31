@@ -49,7 +49,7 @@ public class PlayerInputs : MonoBehaviour
         Controls.Player.Look.performed += OnLook;
         Controls.Player.Look.canceled += OnLook;
 
-        Controls.Player.Jump.performed += OnJump;
+        Controls.Player.Jump.started += OnJump;
 
         Controls.Player.Use.performed += OnUse;
         Controls.Player.Use.canceled += OnUse;
@@ -57,6 +57,7 @@ public class PlayerInputs : MonoBehaviour
         Controls.Player.Drop.started += OnDrop;
 
         Controls.Player.Sprint.started += OnSprinted;
+        Controls.Player.Sprint.canceled += OnSprinted;
 
         Controls.Player.Pause.started += OnPaused;
 
@@ -81,7 +82,7 @@ public class PlayerInputs : MonoBehaviour
         Controls.Player.Look.performed -= OnLook;
         Controls.Player.Look.canceled -= OnLook;
 
-        Controls.Player.Jump.performed -= OnJump;
+        Controls.Player.Jump.started -= OnJump;
 
         Controls.Player.Use.performed -= OnUse;
         Controls.Player.Use.canceled -= OnUse;
@@ -89,6 +90,7 @@ public class PlayerInputs : MonoBehaviour
         Controls.Player.Drop.started -= OnDrop;
 
         Controls.Player.Sprint.started -= OnSprinted;
+        Controls.Player.Sprint.canceled -= OnSprinted;
 
         Controls.Player.Pause.started -= OnPaused;
 

@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class Lamp : MonoBehaviour, IInteractable
+public class LightBulb : MonoBehaviour
 {
     [SerializeField] MeshRenderer bulbMeshRenderer;
     [SerializeField] Material offMaterial;
     [SerializeField] Material onMaterial;
     [SerializeField] Light pointLight;
 
-    bool on;
+    public bool On { get; private set; }
 
     void Awake()
     {
@@ -15,24 +15,20 @@ public class Lamp : MonoBehaviour, IInteractable
             Toggle();
         else
         {
-            on = true;
+            On = true;
             Toggle();
         }
     }
 
-    void Toggle()
+    public void Toggle()
     {
-        on = !on;
+        On = !On;
 
-        if (on)
+        if (On)
             bulbMeshRenderer.material = onMaterial;
         else
             bulbMeshRenderer.material = offMaterial;
 
-        pointLight.gameObject.SetActive(on);
+        pointLight.gameObject.SetActive(On);
     }
-
-    public void Interact(Interactor interactor) => Toggle();
-    public bool CanInteract(Interactor interactor) => true;
-    public string InteractText => on ? "turn off" : "turn on";
 }

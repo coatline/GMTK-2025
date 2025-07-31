@@ -6,7 +6,6 @@ public class ChoreUI : MonoBehaviour
 {
     [SerializeField] TMP_Text nameText;
     [SerializeField] TMP_Text descriptionText;
-    [SerializeField] Image progressBar;
 
     ChoreData chore;
 
@@ -21,7 +20,7 @@ public class ChoreUI : MonoBehaviour
 
     private void Chore_ProgressChanged(float progress)
     {
-        progressBar.fillAmount = progress;
+        descriptionText.text = $"{chore.Type.description} {progress * 100:F0}%";
     }
 
     private void Chore_Completed(ChoreData chore)

@@ -78,7 +78,7 @@ MonoBehaviour:
   objectHolder: {fileID: 5004855158905840729}
   playerCamera: {fileID: 4826542967669323626}
   interactTextUI: {fileID: 756872275937186813}
-  interactRange: 4
+  interactRange: 3
 --- !u!114 &5004855158905840729
 MonoBehaviour:
   m_ObjectHideFlags: 0

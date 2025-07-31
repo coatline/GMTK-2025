@@ -2,21 +2,16 @@ using UnityEngine;
 
 public class Bed : MonoBehaviour, IInteractable
 {
-    public string InteractText => throw new System.NotImplementedException();
-
-    PlayerStateController playerStateController;
+    [SerializeField] Transform wakePosition;
+    [SerializeField] Transform sleepPosition;
 
     public void Interact(Interactor interactor)
     {
-        playerStateController = interactor.GetComponentInParent<PlayerStateController>();
-        //playerStateController.GoToSleep();
-        //playerStateController.CameraAnimator.Animate(new CameraCommand(cameraPosition, transform.forward, 0.25f));
+        interactor.GetComponentInParent<PlayerStateController>().SleepController.Activate(this);
     }
 
-    public void Quit()
-    {
-
-    }
-
+    public Transform WakePosition => wakePosition;
+    public Transform SleepPosition => sleepPosition;
     public bool CanInteract(Interactor interactor) => true;
+    public string InteractText => "Sleep";
 }

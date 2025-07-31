@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
         if (playerInput.currentControlScheme == "Keyboard&Mouse")
         {
-            firstPersonCamera.SetInputValues(ctx.ReadValue<Vector2>() * Time.deltaTime);
+            firstPersonCamera.MoveCamera(ctx.ReadValue<Vector2>() * Time.deltaTime);
             lookInputs = Vector2.zero;
         }
         else
@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if (playerInput.currentControlScheme != "Keyboard&Mouse")
-            firstPersonCamera.SetInputValues(lookInputs * Time.fixedDeltaTime);
+            firstPersonCamera.MoveCamera(lookInputs * Time.fixedDeltaTime);
     }
 
     //public override void Activate() { }

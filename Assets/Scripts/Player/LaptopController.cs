@@ -25,12 +25,11 @@ public class LaptopController : MonoBehaviour
 
     IEnumerator ResetCameraAndExit()
     {
-        CameraCommand command = new CameraCommand(cameraAnimator.CameraNormalPosition, cameraAnimator.transform.forward, 0.5f);
+        CameraCommand command = new CameraCommand(cameraAnimator.NormalPosition, cameraAnimator.transform.forward, 0.5f);
         cameraAnimator.Animate(command);
-        bool cameraDone = false;
-        command.Finished += () => cameraDone = true;
 
-        yield return new WaitUntil(() => cameraDone);
+        yield return new WaitForSeconds(0.5f);
+
         playerController.Activate();
         laptop = null;
         //playerStateController.SwitchToState(playerStateController.PlayerController);

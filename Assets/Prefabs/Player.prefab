@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5004855158905840729}
   - component: {fileID: 7472220789518269725}
   - component: {fileID: 40155456376754869}
-  - component: {fileID: 727221258771692276}
   - component: {fileID: 3999456329608443112}
   - component: {fileID: 5332789746394552043}
   - component: {fileID: 3450851458260032254}
@@ -79,7 +78,7 @@ MonoBehaviour:
   objectHolder: {fileID: 5004855158905840729}
   playerCamera: {fileID: 4826542967669323626}
   interactTextUI: {fileID: 756872275937186813}
-  interactRange: 3
+  interactRange: 4
 --- !u!114 &5004855158905840729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,23 +120,6 @@ MonoBehaviour:
   minJumpDelay: 0.2
   jumpForce: 3.25
   rb: {fileID: 7745794388117001086}
---- !u!114 &727221258771692276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 538045665692460898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85bb0a71d308da14db225f54c71d3773, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraPitchLimit: 80
-  lookSensitivity: 1.5
-  smoothing: 2
-  playerMesh: {fileID: 344648999619909326}
-  cam: {fileID: 4826542967669323626}
 --- !u!23 &3999456329608443112
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -419,8 +401,9 @@ GameObject:
   - component: {fileID: 1070712461593496285}
   - component: {fileID: 5212516014188135901}
   - component: {fileID: 8234875291402506308}
+  - component: {fileID: 4325777376477136258}
   m_Layer: 5
-  m_Name: VisionBlocker
+  m_Name: SleepAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -467,13 +450,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: ee6e6a8d35b4eb446a3e8d7ceadb9f36, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -483,6 +466,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4325777376477136258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3809113742723146495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 629d59c2c3eb3414d8e1ce3de2efc721, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visionBlockImage: {fileID: 8234875291402506308}
 --- !u!1 &4542853523532691638
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,6 +534,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3306138808302818075}
   - component: {fileID: 662642991412060832}
+  - component: {fileID: 7519716387493393998}
   - component: {fileID: 4826542967669323626}
   - component: {fileID: 7694683506295016104}
   - component: {fileID: 7186829980174629232}
@@ -575,8 +572,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26fd8a8296882c0458a8edc1c9ac0633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstPersonCamera: {fileID: 7519716387493393998}
   cameraNormalPosition: {fileID: 7222592931984177749}
   followSpeed: 5
+  cam: {fileID: 4826542967669323626}
+--- !u!114 &7519716387493393998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5667327882577783342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85bb0a71d308da14db225f54c71d3773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraPitchLimit: 80
+  lookSensitivity: 1.5
+  smoothing: 2
+  playerMesh: {fileID: 344648999619909326}
   cam: {fileID: 4826542967669323626}
 --- !u!20 &4826542967669323626
 Camera:
@@ -611,7 +626,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1013,9 +1028,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4429416848134932198}
   - component: {fileID: 805784401895750481}
-  - component: {fileID: 1050551665526241710}
-  - component: {fileID: 1146845297317649745}
   - component: {fileID: 2446577299168594211}
+  - component: {fileID: 7481823907939233491}
+  - component: {fileID: 1146845297317649745}
+  - component: {fileID: 1050551665526241710}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1052,13 +1068,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStateController: {fileID: 1146845297317649745}
-  firstPersonCamera: {fileID: 727221258771692276}
+  firstPersonCamera: {fileID: 7519716387493393998}
   playerMovement: {fileID: 5866066900689054524}
   objectHolder: {fileID: 5004855158905840729}
   playerInput: {fileID: 1050551665526241710}
   interactor: {fileID: 394783493643112384}
   jumper: {fileID: 40155456376754869}
---- !u!114 &1050551665526241710
+--- !u!114 &2446577299168594211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1066,6 +1082,55 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8927936364121062540}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7af039ee2c157d34ebd46ca005fcfcf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 805784401895750481}
+  cameraAnimator: {fileID: 662642991412060832}
+  playerInput: {fileID: 1050551665526241710}
+--- !u!114 &7481823907939233491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8927936364121062540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b986a1b078651449938ea4e0977c480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInput: {fileID: 1050551665526241710}
+  cameraAnimator: {fileID: 662642991412060832}
+  sleepAnimation: {fileID: 4325777376477136258}
+  playerController: {fileID: 805784401895750481}
+  characterTransform: {fileID: 344648999619909326}
+--- !u!114 &1146845297317649745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8927936364121062540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4875dab98feba9044852c288d49e7c19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laptopController: {fileID: 2446577299168594211}
+  playerController: {fileID: 805784401895750481}
+  sleepController: {fileID: 7481823907939233491}
+  cameraAnimator: {fileID: 662642991412060832}
+  playerInput: {fileID: 1050551665526241710}
+--- !u!114 &1050551665526241710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8927936364121062540}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
@@ -1276,10 +1341,6 @@ MonoBehaviour:
     m_ActionId: 4f567f44-5faf-40a5-ac5a-309c1a3eb918
     m_ActionName: 'Laptop/Back[/Keyboard/escape,/Mouse/rightButton,/XInputControllerWindows/buttonEast]'
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: eebb46c5-f39b-435e-9a4e-de370628c38f
-    m_ActionName: Bed/GetUp
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2446577299168594211}
         m_TargetAssemblyTypeName: LaptopController, Assembly-CSharp
@@ -1311,39 +1372,24 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8ae5b4c3-9d47-400b-8b4f-a8f8fdc291ec
     m_ActionName: 'Laptop/Click[/Mouse/leftButton,/XInputControllerWindows/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7481823907939233491}
+        m_TargetAssemblyTypeName: SleepController, Assembly-CSharp
+        m_MethodName: OnGetUp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 728d1d86-ee91-4ef3-b3f8-704947f9b447
+    m_ActionName: 'Sleep/GetUp[/Keyboard/escape,/Mouse/rightButton,/XInputControllerWindows/buttonEast]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 4826542967669323626}
---- !u!114 &1146845297317649745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8927936364121062540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4875dab98feba9044852c288d49e7c19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  laptopController: {fileID: 2446577299168594211}
-  playerController: {fileID: 805784401895750481}
-  cameraAnimator: {fileID: 662642991412060832}
-  playerInput: {fileID: 1050551665526241710}
---- !u!114 &2446577299168594211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8927936364121062540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7af039ee2c157d34ebd46ca005fcfcf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerController: {fileID: 805784401895750481}
-  cameraAnimator: {fileID: 662642991412060832}
-  playerInput: {fileID: 1050551665526241710}

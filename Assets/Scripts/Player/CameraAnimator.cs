@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CameraAnimator : MonoBehaviour
 {
+    [SerializeField] FirstPersonCamera firstPersonCamera;
     [SerializeField] Transform cameraNormalPosition;
     [SerializeField] float followSpeed = 5f;
     [SerializeField] Camera cam;
@@ -19,6 +20,7 @@ public class CameraAnimator : MonoBehaviour
         percentageComplete = 0f;
         startPosition = transform.position;
         startRotation = transform.rotation;
+        firstPersonCamera.LerpToLookDirection(target.lookDirection, target.animationDuration);
     }
 
     private void Update()
@@ -29,13 +31,12 @@ public class CameraAnimator : MonoBehaviour
 
         transform.position = Vector3.Lerp(startPosition, currentCommand.targetTransform.position, percentageComplete);
 
-        if (currentCommand.lookDirection != Vector3.zero)
-        {
-            Quaternion targetRot = Quaternion.LookRotation(currentCommand.lookDirection);
-            transform.rotation = Quaternion.Slerp(startRotation, targetRot, percentageComplete);
-        }
-
-        // add rotating to face direction of currentCommand.lookDirection
+        //if (currentCommand.lookDirection != Vector3.zero)
+        //{
+        //    Quaternion targetRot = Quaternion.LookRotation(currentCommand.lookDirection, Vector3.up);
+        //    // Replace this with calling FirstPersonCamera rotate method
+        //    transform.rotation = Quaternion.Slerp(startRotation, targetRot, percentageComplete);
+        //}
 
         if (percentageComplete >= 1f)
         {
@@ -52,5 +53,5 @@ public class CameraAnimator : MonoBehaviour
         }
     }
 
-    public Transform CameraNormalPosition => cameraNormalPosition;
+    public Transform NormalPosition => cameraNormalPosition;
 }

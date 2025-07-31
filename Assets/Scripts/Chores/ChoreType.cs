@@ -4,5 +4,5 @@ using UnityEngine;
 public class ChoreType : ScriptableObject
 {
     public string description;
-    public int moneyOnComplete;
+    public float moneyOnComplete;
 }

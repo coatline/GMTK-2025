@@ -1397,56 +1397,6 @@
                     "isPartOfComposite": false
                 }
             ]
-        },
-        {
-            "name": "Sleep",
-            "id": "5bb82684-e163-48fa-87b6-124dc015aaa7",
-            "actions": [
-                {
-                    "name": "GetUp",
-                    "type": "Button",
-                    "id": "728d1d86-ee91-4ef3-b3f8-704947f9b447",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "de3a6dc1-8718-437e-9b6a-87a34d0aa061",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "GetUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9d4e73a3-dc8b-4b18-9753-44dba12e0e05",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "GetUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9485aaf6-48bc-44fd-9611-4b0423855a7e",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "GetUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
         }
     ],
     "controlSchemes": [

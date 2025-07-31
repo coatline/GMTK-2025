@@ -1,26 +1,20 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : PlayerState
 {
     const float USE_DEADZONE = .175f;
 
     [Header("References")]
-    [SerializeField] PlayerStateController playerStateController;
     [SerializeField] FirstPersonCamera firstPersonCamera;
     [SerializeField] PlayerMovement playerMovement;
     [SerializeField] ObjectHolder objectHolder;
-    [SerializeField] PlayerInput playerInput;
+    [SerializeField] PlayerInputs playerInputs;
     [SerializeField] Interactor interactor;
     [SerializeField] Jumper jumper;
 
     Vector2 lookInputs;
     bool usingObject;
-
-    public void Activate()
-    {
-        playerInput.SwitchCurrentActionMap("Player");
-    }
 
     public void OnUse(InputAction.CallbackContext ctx)
     {
@@ -78,15 +72,15 @@ public class PlayerController : MonoBehaviour
         if (Cursor.visible || Cursor.lockState != CursorLockMode.Locked)
             return;
 
-        if (playerInput.currentControlScheme == "Keyboard&Mouse")
-        {
-            firstPersonCamera.MoveCamera(ctx.ReadValue<Vector2>() * Time.deltaTime);
-            lookInputs = Vector2.zero;
-        }
-        else
-        {
-            lookInputs = ctx.ReadValue<Vector2>() * 35f;
-        }
+        //if (playerInput.currentControlScheme == "Keyboard&Mouse")
+        //{
+        firstPersonCamera.MoveCamera(ctx.ReadValue<Vector2>() * Time.deltaTime);
+        lookInputs = Vector2.zero;
+        //}
+        //else
+        //{
+        //    lookInputs = ctx.ReadValue<Vector2>() * 35f;
+        //}
     }
 
     public void OnPause(InputAction.CallbackContext ctx)
@@ -102,13 +96,42 @@ public class PlayerController : MonoBehaviour
                 objectHolder.ContinueUsing();
     }
 
-    private void FixedUpdate()
+    //private void FixedUpdate()
+    //{
+    //    if (playerInput.currentControlScheme != "Keyboard&Mouse")
+    //        firstPersonCamera.MoveCamera(lookInputs * Time.fixedDeltaTime);
+    //}
+
+    void EnableInputs()
     {
-        if (playerInput.currentControlScheme != "Keyboard&Mouse")
-            firstPersonCamera.MoveCamera(lookInputs * Time.fixedDeltaTime);
+        print("enabling");
+        playerInputs.Used += OnUse;
+        playerInputs.Dropped += OnDrop;
+        playerInputs.Jumped += OnJump;
+        playerInputs.Interacted += OnInteract;
+        playerInputs.Moved += OnMove;
+        playerInputs.Sprinted += OnSprint;
+        playerInputs.Looked += OnLook;
+        playerInputs.Paused += OnPause;
     }
 
-    //public override void Activate() { }
-    //public override void Deactivate() { }
-    //public override string ActionMap => "Player";
+    void DisableInputs()
+    {
+        print("Disabling");
+        playerInputs.Used -= OnUse;
+        playerInputs.Dropped -= OnDrop;
+        playerInputs.Jumped -= OnJump;
+        playerInputs.Interacted -= OnInteract;
+        playerInputs.Moved -= OnMove;
+        playerInputs.Sprinted -= OnSprint;
+        playerInputs.Looked -= OnLook;
+        playerInputs.Paused -= OnPause;
+    }
+
+    public void Activate() { NotifyActivated(); EnableInputs(); }
+    public override void Exit()
+    {
+        DisableInputs();
+        playerMovement.SetMoveInput(Vector2.zero);
+    }
 }

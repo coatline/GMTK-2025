@@ -28,7 +28,7 @@ public class TimeManager : Singleton<TimeManager>
 
     void UpdateTime()
     {
-        currentHour += (Time.deltaTime * (timeSpeed / 60f));
+        currentHour += WorldDeltaTime;
 
         if (currentHour >= 25)
             currentHour = 1;
@@ -45,6 +45,7 @@ public class TimeManager : Singleton<TimeManager>
     }
 
     public float TimeNormalized => currentHour / 24f;
+    public float WorldDeltaTime => Time.deltaTime * (timeSpeed / 60f);
     public string GetCurrentTimeString() => GetTimeString(currentHour);
     public static string GetTimeString(float hour, bool roundToHalfHour = true)
     {

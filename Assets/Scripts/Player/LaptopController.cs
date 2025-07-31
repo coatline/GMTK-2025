@@ -2,24 +2,26 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class LaptopController : MonoBehaviour
+public class LaptopController : PlayerState
 {
+    [SerializeField] PlayerStateController playerStateController;
     [SerializeField] PlayerController playerController;
     [SerializeField] CameraAnimator cameraAnimator;
-    [SerializeField] PlayerInput playerInput;
+    [SerializeField] PlayerInputs playerInputs;
 
     Laptop laptop;
 
     public void Activate(Laptop laptop)
     {
+        NotifyActivated();
         this.laptop = laptop;
-        playerInput.SwitchCurrentActionMap("Laptop");
+        EnableInput();
         cameraAnimator.Animate(laptop.LaptopCameraCommand);
     }
 
     public void Deactivate()
     {
-        playerInput.DeactivateInput();
+        DisableInput();
         StartCoroutine(ResetCameraAndExit());
     }
 
@@ -32,7 +34,6 @@ public class LaptopController : MonoBehaviour
 
         playerController.Activate();
         laptop = null;
-        //playerStateController.SwitchToState(playerStateController.PlayerController);
     }
 
     public void OnBack(InputAction.CallbackContext ctx)
@@ -49,11 +50,25 @@ public class LaptopController : MonoBehaviour
 
     public void OnMoveCursor(InputAction.CallbackContext ctx)
     {
-        if (playerInput.currentControlScheme == "Keyboard&Mouse")
-            laptop.LaptopCursor.Move(ctx.ReadValue<Vector2>() * Time.deltaTime);
-        else
-            laptop.LaptopCursor.Move(ctx.ReadValue<Vector2>() * Time.deltaTime);
+        //if (currentControlScheme == "Keyboard&Mouse")
+        laptop.LaptopCursor.Move(ctx.ReadValue<Vector2>() * Time.deltaTime);
+        //else
+        //    laptop.LaptopCursor.Move(ctx.ReadValue<Vector2>() * Time.deltaTime);
     }
 
-    //public override string ActionMap => "Laptop";
+    void EnableInput()
+    {
+        playerInputs.Backed += OnBack;
+        playerInputs.Clicked += OnClick;
+        playerInputs.MovedCursor += OnMoveCursor;
+    }
+
+    void DisableInput()
+    {
+        playerInputs.Backed -= OnBack;
+        playerInputs.Clicked -= OnClick;
+        playerInputs.MovedCursor -= OnMoveCursor;
+    }
+
+    public override void Exit() => DisableInput();
 }

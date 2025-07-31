@@ -13,8 +13,8 @@ public class Broom : HoldableObject
         {
             Rigidbody rb = hit.attachedRigidbody;
 
-            if (rb != null && rb.name != "Player")
-                rb.AddForce(transform.forward * sweepForce);
+            if (rb != null && rb.name != "Character")
+                rb.AddForce((transform.forward + new Vector3(0, .25f, 0)) * sweepForce);
         }
 
         base.StartUsing(direction);

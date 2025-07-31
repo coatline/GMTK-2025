@@ -8,25 +8,22 @@ public class PlayerStateController : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] SleepController sleepController;
     [SerializeField] CameraAnimator cameraAnimator;
-    [SerializeField] PlayerInput playerInput;
+
+    PlayerState currentState;
 
     private void Awake()
     {
-        foreach (var map in playerInput.actions.actionMaps)
-            map.Disable();
+        playerController.Activated += SetState;
+        laptopController.Activated += SetState;
+        sleepController.Activated += SetState;
     }
 
-    IEnumerator Start()
+    void SetState(PlayerState state)
     {
-        playerInput.enabled = false;
+        if (currentState != null)
+            currentState.Exit();
 
-        yield return null;
-
-        foreach (var map in playerInput.actions.actionMaps)
-            map.Disable();
-
-        playerInput.enabled = true;
-        playerInput.SwitchCurrentActionMap("Player");
+        currentState = state;
     }
 
     public CameraAnimator CameraAnimator => cameraAnimator;

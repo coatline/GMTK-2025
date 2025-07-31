@@ -4,7 +4,6 @@ public class CameraAnimator : MonoBehaviour
 {
     [SerializeField] FirstPersonCamera firstPersonCamera;
     [SerializeField] Transform cameraNormalPosition;
-    [SerializeField] float followSpeed = 5f;
     [SerializeField] Camera cam;
 
     CameraCommand currentCommand;

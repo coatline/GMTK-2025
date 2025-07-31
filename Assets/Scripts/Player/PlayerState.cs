@@ -2,8 +2,13 @@ using UnityEngine;
 
 public abstract class PlayerState : MonoBehaviour
 {
-    public abstract void Activate();
-    public abstract void Deactivate();
+    public event System.Action<PlayerState> Activated;
 
-    public abstract string ActionMap { get; }
+    protected void NotifyActivated()
+    {
+        Activated?.Invoke(this);
+    }
+
+    // This should only be called from PlayerStateController
+    public abstract void Exit();
 }

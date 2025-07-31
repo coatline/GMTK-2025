@@ -8,6 +8,8 @@ public class ChoreManager : Singleton<ChoreManager>
     public List<ChoreData> AssignedChores { get; private set; }
 
     [SerializeField] List<ChoreStation> choreStations;
+    [SerializeField] ChoreType week1Chores;
+    [SerializeField] ChoreType week2Chores;
 
     Dictionary<ChoreType, ChoreData> choreToData;
     List<ChoreData> unassignedChores;
@@ -43,11 +45,6 @@ public class ChoreManager : Singleton<ChoreManager>
             data.RecordDay();
 
         // Update chores list
-    }
-
-    public void AssignChore(ChoreType type)
-    {
-
     }
 
     public ChoreData GetChoreDataFromType(ChoreType type) => choreToData[type];

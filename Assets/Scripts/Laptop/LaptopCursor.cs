@@ -11,6 +11,7 @@ public class LaptopCursor : MonoBehaviour
     [SerializeField] GraphicRaycaster raycaster;
     [SerializeField] EventSystem eventSystem;
     [SerializeField] float speed = 1000f;
+    [SerializeField] RectTransform point;
 
     Vector2 currentPos;
     bool active;
@@ -48,11 +49,11 @@ public class LaptopCursor : MonoBehaviour
         Vector2 screenPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvasRect,
-            cursor.position,
+            point.position,
             canvas.worldCamera,
             out screenPoint
         );
-        pointerData.position = canvas.worldCamera.WorldToScreenPoint(cursor.position);
+        pointerData.position = canvas.worldCamera.WorldToScreenPoint(point.position);
 
         // Raycast
         var results = new List<RaycastResult>();

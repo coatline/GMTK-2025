@@ -18,7 +18,7 @@ public class ChoreDisplayer : MonoBehaviour
         foreach (ChoreData chore in ChoreManager.I.AssignedChores)
         {
             TMP_Text text = Instantiate(textPrefab, textHolder);
-            text.text = chore.type.name;
+            text.text = chore.Type.name;
         }
     }
 }

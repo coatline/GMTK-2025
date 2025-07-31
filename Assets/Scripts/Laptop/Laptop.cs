@@ -12,24 +12,19 @@ public class Laptop : MonoBehaviour, IInteractable
     public void Interact(Interactor interactor)
     {
         currentInteractor = interactor;
-        //interactor.state = true;
+        currentInteractor.FocusState.SetState(CharacterState.Laptop);
         cursor.Activate();
     }
 
     public void Quit()
     {
-        //currentInteractor.IsOccupied = false;
+        currentInteractor.FocusState.SetState(CharacterState.None);
         cursor.Deactivate();
     }
 
     public void Purchase()
     {
         print("OKay!!");
-    }
-
-    void Update()
-    {
-
     }
 
     public string InteractText => "Hop online";

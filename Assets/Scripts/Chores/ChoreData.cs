@@ -2,25 +2,35 @@ using UnityEngine;
 
 public class ChoreData
 {
-    public event System.Action Completed;
+    public event System.Action<ChoreData> Completed;
     public event System.Action<float> ProgressChanged;
 
-    public readonly ChoreType type;
+    public readonly ChoreType Type;
+
+    float percentageComplete;
+    public float PercentageComplete
+    {
+        get => percentageComplete;
+        set
+        {
+            percentageComplete = value;
+            ProgressChanged?.Invoke(percentageComplete);
+        }
+    }
 
     public int sequentialMissedDays;
-    public float percentageComplete;
     public int totalMissedDays;
     public bool complete;
 
     public ChoreData(ChoreType type)
     {
-        this.type = type;
+        this.Type = type;
     }
 
     public void Complete()
     {
         complete = true;
-        Completed?.Invoke();
+        Completed?.Invoke(this);
     }
 
     public void RecordDay()

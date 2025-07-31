@@ -20,10 +20,10 @@ public class FirstPersonInteractor : Interactor
         if (Physics.Raycast(ray, out hit, interactRange))
         {
             raycastInteractable = hit.collider.GetComponentInParent<IInteractable>();
-            DebugMenu.I.DisplayValue("looking at: ", hit.collider.gameObject);
+            DebugMenu.I.DisplayValue("looking at", hit.collider.gameObject);
         }
         else
-            DebugMenu.I.DisplayValue("looking at: ", "null");
+            DebugMenu.I.DisplayValue("looking at", "null");
 
         if (raycastInteractable != null)
             Hover(raycastInteractable);

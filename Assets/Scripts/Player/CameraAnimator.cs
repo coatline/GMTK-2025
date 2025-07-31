@@ -52,8 +52,5 @@ public class CameraAnimator : MonoBehaviour
         }
     }
 
-    public void ResetPosition()
-    {
-        Animate(new CameraCommand(cameraNormalPosition, transform.forward, 0.5f));
-    }
+    public Transform CameraNormalPosition => cameraNormalPosition;
 }

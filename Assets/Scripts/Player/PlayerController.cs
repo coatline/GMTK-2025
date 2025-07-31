@@ -14,8 +14,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Interactor interactor;
     [SerializeField] Jumper jumper;
 
-    bool usingObject;
     Vector2 lookInputs;
+    bool usingObject;
+
+    public void Activate()
+    {
+        playerInput.SwitchCurrentActionMap("Player");
+    }
 
     public void OnUse(InputAction.CallbackContext ctx)
     {
@@ -90,12 +95,6 @@ public class PlayerController : MonoBehaviour
             PauseMenu.I.TogglePause();
     }
 
-    public void OnBack(InputAction.CallbackContext ctx)
-    {
-        if (ctx.started)
-            playerStateController.Laptop.Quit();
-    }
-
     private void Update()
     {
         if (objectHolder.HasItem)
@@ -108,4 +107,8 @@ public class PlayerController : MonoBehaviour
         if (playerInput.currentControlScheme != "Keyboard&Mouse")
             firstPersonCamera.SetInputValues(lookInputs * Time.fixedDeltaTime);
     }
+
+    //public override void Activate() { }
+    //public override void Deactivate() { }
+    //public override string ActionMap => "Player";
 }

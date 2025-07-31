@@ -14,7 +14,7 @@ public class LaptopCursor : MonoBehaviour
     [SerializeField] RectTransform point;
 
     Vector2 currentPos;
-    bool active;
+    bool mouseDown;
 
     void Start()
     {
@@ -23,17 +23,13 @@ public class LaptopCursor : MonoBehaviour
 
     void Update()
     {
-        if (active == false)
-            return;
-
-        DoMovement();
         RegisterInput();
     }
 
-    void DoMovement()
+    public void Move(Vector2 delta)
     {
-        Vector2 move = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * speed * Time.deltaTime;
-        currentPos += move;
+        delta *= speed * Time.deltaTime;
+        currentPos += delta;
 
         // Clamp cursor inside canvas
         currentPos.x = Mathf.Clamp(currentPos.x, -canvasRect.rect.width / 2f, canvasRect.rect.width / 2f);
@@ -62,13 +58,13 @@ public class LaptopCursor : MonoBehaviour
         foreach (var result in results)
         {
             ExecuteEvents.Execute(result.gameObject, pointerData, ExecuteEvents.pointerEnterHandler);
-            if (Input.GetMouseButtonDown(0))
-            {
+
+            if (mouseDown)
                 ExecuteEvents.Execute(result.gameObject, pointerData, ExecuteEvents.pointerClickHandler);
-            }
         }
+
+        mouseDown = false;
     }
 
-    public void Activate() => active = true;
-    public void Deactivate() => active = false;
+    public void SetMouseDown() => this.mouseDown = true;
 }

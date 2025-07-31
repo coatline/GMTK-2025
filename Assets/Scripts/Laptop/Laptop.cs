@@ -4,35 +4,35 @@ using UnityEngine;
 public class Laptop : MonoBehaviour, IInteractable
 {
     [SerializeField] Transform cameraPosition;
-    [SerializeField] LaptopCursor cursor;
+    [SerializeField] LaptopCursor laptopCursor;
     [SerializeField] TMP_Text moneyText;
 
     PlayerStateController playerStateController;
 
+    public LaptopCursor LaptopCursor => laptopCursor;
 
     public void Interact(Interactor interactor)
     {
         playerStateController = interactor.GetComponentInParent<PlayerStateController>();
-        playerStateController.SetLaptop(this);
-        playerStateController.CameraAnimator.Animate(new CameraCommand(cameraPosition, transform.forward, 0.25f));
+        playerStateController.LaptopController.Activate(this);
 
-        cursor.Activate();
+        laptopCursor.enabled = true;
     }
 
     public void Quit()
     {
-        playerStateController.SetNormal();
-        playerStateController.CameraAnimator.ResetPosition();
+        playerStateController.LaptopController.Deactivate();
         playerStateController = null;
 
-        cursor.Deactivate();
+        laptopCursor.enabled = false;
     }
 
     public void Purchase()
     {
-        print("OKay!!");
+        print("Bought something.");
     }
 
     public string InteractText => "Hop online";
     public bool CanInteract(Interactor interactor) => playerStateController == null;
+    public CameraCommand LaptopCameraCommand => new CameraCommand(cameraPosition, transform.forward, 0.25f);
 }

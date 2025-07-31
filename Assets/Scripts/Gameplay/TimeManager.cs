@@ -4,9 +4,9 @@ using UnityEngine;
 public class TimeManager : Singleton<TimeManager>
 {
     [Header("Time Settings")]
-    [Range(0f, 12f)]
+    [Range(0f, 24f)]
     [SerializeField] float currentHour = 6f; // Start at 6 AM
-    [SerializeField] float timeSpeed = 120f; // In-game minutes per real second (60 = 1 hour per minute)
+    [SerializeField] float timeSpeed; // In-game minutes per real second (60 = 1 hour per minute)
 
     [Header("Bedtime")]
     [SerializeField] float bedtimeHour = 20f; // 8 PM
@@ -36,15 +36,34 @@ public class TimeManager : Singleton<TimeManager>
 
     void UpdateTimeDisplay()
     {
-        string ampm = currentHour < 12f ? "AM" : "PM";
-        string formattedTime = $"{Mathf.FloorToInt(currentHour):00}:00 {ampm}";
-        currentTimeText.text = $"Current Time: {formattedTime}";
+        currentTimeText.text = $"{GetCurrentTimeString()}";
     }
 
     void UpdateBedtimeDisplay()
     {
-        string ampm = bedtimeHour < 12f ? "AM" : "PM";
-        string formattedTime = $"{Mathf.FloorToInt(bedtimeHour):00}:00 {ampm}";
-        bedtimeText.text = $"Bedtime: {formattedTime}";
+        bedtimeText.text = $"Bedtime: {GetTimeString(bedtimeHour)}";
     }
+
+    public string GetCurrentTimeString() => GetTimeString(currentHour);
+    public static string GetTimeString(float hour, bool roundToHalfHour = true)
+    {
+        int totalMinutes = Mathf.FloorToInt(hour * 60f);
+
+        if (roundToHalfHour)
+        {
+            int remainder = totalMinutes % 60;
+            totalMinutes -= remainder;
+            if (remainder >= 45) totalMinutes += 60;
+            else if (remainder >= 15) totalMinutes += 30;
+            // else keep it at :00
+        }
+
+        int displayHour = (totalMinutes / 60) % 12;
+        if (displayHour == 0) displayHour = 12;
+        int displayMinutes = totalMinutes % 60;
+
+        string ampm = hour < 12f ? "AM" : "PM";
+        return $"{displayHour}:{displayMinutes:00}{ampm}";
+    }
+
 }

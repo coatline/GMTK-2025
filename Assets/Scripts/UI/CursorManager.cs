@@ -27,15 +27,6 @@ public class CursorManager : MonoBehaviour
         Cursor.visible = false;
     }
 
-    IEnumerator DelayLock()
-    {
-        yield return null;
-        yield return new WaitForEndOfFrame();
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
     private void OnDestroy()
     {
         PauseMenu.Paused -= ReleaseCursor;

@@ -12,13 +12,13 @@ public class Laptop : MonoBehaviour, IInteractable
     public void Interact(Interactor interactor)
     {
         currentInteractor = interactor;
-        interactor.PlayerController.IsOccupied = true;
+        //interactor.state = true;
         cursor.Activate();
     }
 
     public void Quit()
     {
-        currentInteractor.PlayerController.IsOccupied = false;
+        //currentInteractor.IsOccupied = false;
         cursor.Deactivate();
     }
 
@@ -32,5 +32,6 @@ public class Laptop : MonoBehaviour, IInteractable
 
     }
 
+    public string InteractText => "Hop online";
     public bool CanInteract(Interactor interactor) => currentInteractor == null;
 }

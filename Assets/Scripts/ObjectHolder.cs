@@ -3,7 +3,6 @@ using UnityEngine;
 public class ObjectHolder : MonoBehaviour
 {
     [SerializeField] Transform hand;
-    [SerializeField] Camera cam;
 
     HoldableObject holdableObject;
 
@@ -23,27 +22,27 @@ public class ObjectHolder : MonoBehaviour
         holdableObject = null;
     }
 
-    public void Drop()
+    public void TryDrop()
     {
-        holdableObject.Drop(cam.transform.forward);
+        holdableObject.Drop(transform.forward);
     }
 
     public void FinishUsing()
     {
-        holdableObject.FinishUsing(cam.transform.forward);
+        holdableObject.FinishUsing(transform.forward);
     }
 
     public void ContinueUsing()
     {
-        holdableObject.ContinueUsing(cam.transform.forward);
+        holdableObject.ContinueUsing(transform.forward);
     }
 
     public void StartUsing()
     {
-        holdableObject.StartUsing(cam.transform.forward);
+        holdableObject.StartUsing(transform.forward);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (holdableObject != null)
             holdableObject.Hold(hand.position, new Vector3(0, hand.rotation.eulerAngles.y, hand.rotation.eulerAngles.z));

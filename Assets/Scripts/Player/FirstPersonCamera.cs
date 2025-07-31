@@ -2,9 +2,9 @@
 
 public class FirstPersonCamera : MonoBehaviour
 {
-    [SerializeField] float cameraPitchLimit = 80;
-    [SerializeField] float lookSensitivity = 1;
-    [SerializeField] float smoothing = 1;
+    [SerializeField] float cameraPitchLimit = 60;
+    [SerializeField] float lookSensitivity = 1.5f;
+    [SerializeField] float smoothing = 2f;
     [SerializeField] Transform playerMesh;
     [SerializeField] Camera cam;
 

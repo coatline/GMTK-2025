@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class HoldableObject : MonoBehaviour, IInteractable
 {
-    public bool BeingHeld { get; protected set; }
-    public Rigidbody Rigidbody => rb;
-
     public event System.Action PickedUp;
     public event System.Action LeftHand;
     public event System.Action Destroyed;
 
     [SerializeField] protected Rigidbody rb;
     [SerializeField] float dropForce;
+    
+    public bool BeingHeld { get; protected set; }
+    public Rigidbody Rigidbody => rb;
+
 
     public void Drop(Vector3 direction)
     {
@@ -49,7 +50,7 @@ public class HoldableObject : MonoBehaviour, IInteractable
 
     public void Interact(Interactor interactor)
     {
-        interactor.PlayerController.ObjectHolder.Pickup(this);
+        interactor.ObjectHolder.Pickup(this);
     }
 
     private void OnDestroy()
@@ -60,5 +61,6 @@ public class HoldableObject : MonoBehaviour, IInteractable
     public virtual void StartUsing(Vector2 direction) { }
     public virtual void ContinueUsing(Vector3 direction) { }
     public virtual void FinishUsing(Vector3 direction) { }
-    public bool CanInteract(Interactor interactor) => interactor.PlayerController.ObjectHolder.HasItem == false;
+    public string InteractText => $"Pickup {name}";
+    public bool CanInteract(Interactor interactor) => interactor.ObjectHolder.HasItem == false;
 }

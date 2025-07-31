@@ -38,7 +38,7 @@ public class ChoreManager : Singleton<ChoreManager>
     {
         foreach (ChoreData data in AssignedChores)
             data.DayFinished();
-
+         
         // Notify chores you missed.
 
         // Update chores list

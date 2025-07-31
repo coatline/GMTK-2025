@@ -25,8 +25,10 @@ public class SweepChore : ChoreStation
         }
     }
 
-    private void NewLeaf_Destroyed()
+    private void NewLeaf_Destroyed(Leaf leaf)
     {
+        unsweptLeaves.Remove(leaf);
+
         if (unsweptLeaves.Count == 0)
             Complete();
     }
@@ -41,6 +43,7 @@ public class SweepChore : ChoreStation
 
     protected override void Complete()
     {
+        print("complete");
         base.Complete();
     }
 }

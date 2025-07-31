@@ -3,22 +3,28 @@ using UnityEngine;
 
 public class Laptop : MonoBehaviour, IInteractable
 {
+    [SerializeField] Transform cameraPosition;
     [SerializeField] LaptopCursor cursor;
     [SerializeField] TMP_Text moneyText;
 
-    Interactor currentInteractor;
+    PlayerController playerController;
 
 
     public void Interact(Interactor interactor)
     {
-        currentInteractor = interactor;
-        currentInteractor.FocusState.SetState(CharacterState.Laptop);
+        playerController = interactor.GetComponentInParent<PlayerController>();
+        playerController.SetState(PlayerState.Laptop);
+        playerController..CameraAnimator.Animate(new CameraCommand(cameraPosition, transform.forward, 0.25f));
+
         cursor.Activate();
     }
 
     public void Quit()
     {
-        currentInteractor.FocusState.SetState(CharacterState.None);
+        currentInteractor.FocusState.SetState(CharacterState.None, this);
+        currentInteractor.FocusState.CameraAnimator.ResetPosition();
+
+        currentInteractor = null;
         cursor.Deactivate();
     }
 

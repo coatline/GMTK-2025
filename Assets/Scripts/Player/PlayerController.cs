@@ -6,14 +6,14 @@ public class PlayerController : MonoBehaviour
     const float USE_DEADZONE = .175f;
 
     [Header("References")]
+    [SerializeField] CharacterController characterController;
     [SerializeField] FirstPersonCamera firstPersonCamera;
     [SerializeField] PlayerMovement playerMovement;
+    [SerializeField] CameraAnimator cameraAnimator;
     [SerializeField] ObjectHolder objectHolder;
     [SerializeField] PlayerInput playerInput;
     [SerializeField] Interactor interactor;
     [SerializeField] Jumper jumper;
-
-    public FocusState Focus { get; private set; }
 
     bool usingObject;
     Vector2 lookInputs;
@@ -106,8 +106,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (usingObject)
-            objectHolder.ContinueUsing();
+        if (objectHolder.HasItem)
+            if (usingObject)
+                objectHolder.ContinueUsing();
     }
 
     private void FixedUpdate()
@@ -116,91 +117,20 @@ public class PlayerController : MonoBehaviour
             firstPersonCamera.SetInputValues(lookInputs * Time.fixedDeltaTime);
     }
 
-    public void SetFocus(FocusState focusControl)
+    public void SetState(PlayerState state)
     {
-        Focus = focusControl;
+        switch (state)
+        {
+            case PlayerState.None: playerInput.enabled = true; break;
+            case PlayerState.Laptop: playerInput.enabled = false; break;
+        }
     }
 
+    public CameraAnimator CameraAnimator => cameraAnimator;
+}
 
-    //void Update()
-    //{
-    //    if (playerController.Focus == null)
-    //        PauseMenu.I.
-
-    //    else if (Input.GetKeyDown(KeyCode.Escape))
-    //        Cursor.lockState = CursorLockMode.None;
-
-    //    if (playerController.IsOccupied) return;
-    //    Interact();
-    //    Debug();
-    //    Item();
-
-    //    Jump();
-    //    LateralMovement();
-    //    Mouse();
-    //    Flying();
-    //}
-
-    //void Item()
-    //{
-    //    if (objectHolder.HasItem == false)
-    //        return;
-
-    //    if (Input.GetMouseButtonDown(0))
-    //        objectHolder.StartUsing();
-    //    else if (Input.GetMouseButton(0))
-    //        objectHolder.ContinueUsing();
-    //    else
-    //        objectHolder.FinishUsing();
-
-    //    if (Input.GetMouseButtonDown(1))
-    //        objectHolder.Drop();
-    //}
-
-    //void Interact()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.E))
-    //        interactor.TryInteract();
-    //}
-
-    //void Mouse()
-    //{
-    //    Vector2 inputValues = new Vector3(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-    //    firstPersonCamera.RotateCamera(inputValues);
-    //}
-
-    //void Jump()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //        playerMovement.TryJump();
-    //}
-
-    //void LateralMovement()
-    //{
-    //    Vector2 inputs = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
-    //    playerMovement.SetDirection(inputs);
-
-    //    if (Input.GetKeyDown(KeyCode.LeftControl))
-    //        playerMovement.ToggleRunning();
-    //}
-
-    //void Flying()
-    //{
-    //    if (Input.GetKey(KeyCode.Space))
-    //        playerMovement.TryFly(1);
-    //    if (Input.GetKey(KeyCode.LeftShift))
-    //        playerMovement.TryFly(-1);
-    //}
-
-    //void Debug()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.R))
-    //        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
-    //    if (Input.GetKeyDown(KeyCode.F))
-    //        playerMovement.ToggleFlying();
-
-    //    if (Input.GetKeyDown(KeyCode.F1))
-    //        DebugMenu.I.Toggle();
-    //}
+public enum PlayerState
+{
+    None,
+    Laptop
 }

@@ -3,8 +3,6 @@ using UnityEngine;
 
 public abstract class ChoreStation : MonoBehaviour
 {
-    public event System.Action Completed;
-
     [SerializeField] ChoreType choreType;
 
     protected ChoreData choreData;
@@ -20,6 +18,5 @@ public abstract class ChoreStation : MonoBehaviour
     protected virtual void Complete()
     {
         choreData.Complete();
-        Completed?.Invoke();
     }
 }

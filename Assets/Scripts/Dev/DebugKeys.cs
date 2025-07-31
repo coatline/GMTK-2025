@@ -6,10 +6,11 @@ public class DebugKeys : MonoBehaviour
 
     private void Awake()
     {
-        debugActions = new System.Action[2]
+        debugActions = new System.Action[3]
         {
             ReloadScene,
-            ()=>NextScene(1)
+            ()=>NextScene(1),
+            ToggleDebugMenu
         };
     }
 
@@ -21,13 +22,18 @@ public class DebugKeys : MonoBehaviour
                     debugActions[i - 1].Invoke();
     }
 
-    public void ReloadScene()
+    void ReloadScene()
     {
         SceneFader.I.ReloadCurrentScene(0.1f);
     }
 
-    public void NextScene(int direction)
+    void NextScene(int direction)
     {
         SceneFader.I.LoadSceneInDirection(direction);
+    }
+
+    void ToggleDebugMenu()
+    {
+        DebugMenu.I.Toggle();
     }
 }

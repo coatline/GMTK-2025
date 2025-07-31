@@ -8,11 +8,10 @@ public class ChoreManager : Singleton<ChoreManager>
     public List<ChoreData> AssignedChores { get; private set; }
 
     [SerializeField] List<ChoreStation> choreStations;
-    [SerializeField] ChoreType week1Chores;
-    [SerializeField] ChoreType week2Chores;
+    [SerializeField] List<ChoreType> week1Chores;
+    [SerializeField] List<ChoreType> week2Chores;
 
-    Dictionary<ChoreType, ChoreData> choreToData;
-    List<ChoreData> unassignedChores;
+    Dictionary<ChoreType, ChoreData> getChoreData;
     List<ChoreData> everyChore;
 
     protected override void Awake()
@@ -21,17 +20,17 @@ public class ChoreManager : Singleton<ChoreManager>
 
         everyChore = new List<ChoreData>();
         AssignedChores = new List<ChoreData>();
-        choreToData = new Dictionary<ChoreType, ChoreData>();
+        getChoreData = new Dictionary<ChoreType, ChoreData>();
 
         for (int i = 0; i < DataLibrary.I.Chores.Length; i++)
         {
             ChoreType chore = DataLibrary.I.Chores[i];
             ChoreData data = new ChoreData(chore);
-            choreToData.Add(chore, data);
+            getChoreData.Add(chore, data);
             everyChore.Add(data);
         }
 
-        unassignedChores = new List<ChoreData>(everyChore);
+        SetChores(week1Chores);
     }
 
     private void Start()
@@ -47,7 +46,16 @@ public class ChoreManager : Singleton<ChoreManager>
         // Update chores list
     }
 
-    public ChoreData GetChoreDataFromType(ChoreType type) => choreToData[type];
+    void SetChores(List<ChoreType> newChores)
+    {
+        AssignedChores.Clear();
 
-    IEnumerable<ChoreData> GetAssignedChores => AssignedChores;
+        for (int i = 0; i < newChores.Count; i++)
+            AssignedChores.Add(getChoreData[newChores[i]]);
+    }
+
+    public ChoreData GetRandomAssignedChore() => AssignedChores[Random.Range(0, AssignedChores.Count)];
+    public ChoreData GetRandomUnassignedChore() => UnassignedChores[Random.Range(0, UnassignedChores.Count)];
+    public List<ChoreData> UnassignedChores => everyChore.Except(AssignedChores).ToList();
+    public ChoreData GetChoreDataFromType(ChoreType type) => getChoreData[type];
 }

@@ -10,26 +10,28 @@ public class SweepChore : ChoreStation
     [SerializeField] int minLeavesPerDay;
     [SerializeField] int maxLeavesPerDay;
 
-    List<Leaf> unsweptLeaves;
+    int totalLeaves;
+    int remainingLeaves;
 
     protected override void Setup()
     {
         // Place leaves
-        unsweptLeaves = new List<Leaf>();
+        totalLeaves = GetTotalLeaves();
+        remainingLeaves = totalLeaves;
 
-        for (int i = 0; i < GetTotalLeaves(); i++)
+        for (int i = 0; i < totalLeaves; i++)
         {
             Leaf newLeaf = Instantiate(leafPrefab, leafSpawnCenter.position + new Vector3(Random.Range(-leafSpawnArea.x, leafSpawnArea.x), 0, Random.Range(-leafSpawnArea.y, leafSpawnArea.y)), Quaternion.Euler(0, 0, Random.Range(0, 360f)));
-            newLeaf.Destroyed += NewLeaf_Destroyed;
-            unsweptLeaves.Add(newLeaf);
+            newLeaf.Destroyed += Leaf_Destroyed;
         }
     }
 
-    private void NewLeaf_Destroyed(Leaf leaf)
+    private void Leaf_Destroyed(Leaf leaf)
     {
-        unsweptLeaves.Remove(leaf);
+        leaf.Destroyed -= Leaf_Destroyed;
+        choreData.PercentageComplete = 1 - (--remainingLeaves / (float)totalLeaves);
 
-        if (unsweptLeaves.Count == 0)
+        if (remainingLeaves == 0)
             Complete();
     }
 

@@ -30,7 +30,10 @@ public class FirstPersonInteractor : Interactor
         else if (triggerInteractable != null)
             Hover(triggerInteractable);
         else
+        {
             interactTextUI.enabled = false;
+            currentTarget = null;
+        }
     }
 
 

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 394783493643112384}
   - component: {fileID: 5004855158905840729}
   - component: {fileID: 7472220789518269725}
-  - component: {fileID: 1232663432705559882}
   - component: {fileID: 40155456376754869}
   - component: {fileID: 727221258771692276}
   - component: {fileID: 3999456329608443112}
@@ -77,7 +76,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d549603ac81b5a43b5c765b8b0909f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusState: {fileID: 1232663432705559882}
   objectHolder: {fileID: 5004855158905840729}
   playerCamera: {fileID: 4826542967669323626}
   interactTextUI: {fileID: 756872275937186813}
@@ -107,19 +105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5717853a38eb811428f651b75484d11f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1232663432705559882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 538045665692460898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd598b7f7ea333f478118f2a301c9ebf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraAnimator: {fileID: 662642991412060832}
 --- !u!114 &40155456376754869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -953,6 +938,7 @@ GameObject:
   - component: {fileID: 4429416848134932198}
   - component: {fileID: 805784401895750481}
   - component: {fileID: 1050551665526241710}
+  - component: {fileID: 1146845297317649745}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -988,6 +974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf94d2be1d8945e4fa1e008068b078ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStateController: {fileID: 1146845297317649745}
   firstPersonCamera: {fileID: 727221258771692276}
   playerMovement: {fileID: 5866066900689054524}
   objectHolder: {fileID: 5004855158905840729}
@@ -1104,7 +1091,19 @@ MonoBehaviour:
     m_ActionId: f1ba0d36-48eb-4cd5-b651-1c94a6531f70
     m_ActionName: 'Player/Jump[/Keyboard/space]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 805784401895750481}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 2776c80d-3c14-4091-8c56-d04ced07a2b0
     m_ActionName: 'Player/Previous[/Keyboard/1]'
   - m_PersistentCalls:
@@ -1183,8 +1182,39 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8233fb47-f9c4-44ca-a53b-7afa4b34cc71
     m_ActionName: 'Player/Drop[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 805784401895750481}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnBack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4f567f44-5faf-40a5-ac5a-309c1a3eb918
+    m_ActionName: 'Laptop/Back[/Keyboard/escape,/Mouse/rightButton,/XInputControllerWindows/buttonEast]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 4826542967669323626}
+--- !u!114 &1146845297317649745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8927936364121062540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4875dab98feba9044852c288d49e7c19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraAnimator: {fileID: 662642991412060832}
+  playerInput: {fileID: 1050551665526241710}
+  laptopInput: {fileID: 0}

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CursorManager : MonoBehaviour
@@ -24,5 +25,20 @@ public class CursorManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    IEnumerator DelayLock()
+    {
+        yield return null;
+        yield return new WaitForEndOfFrame();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void OnDestroy()
+    {
+        PauseMenu.Paused -= ReleaseCursor;
+        PauseMenu.Resumed -= LockCursor;
     }
 }

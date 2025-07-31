@@ -6,10 +6,9 @@ public class PlayerController : MonoBehaviour
     const float USE_DEADZONE = .175f;
 
     [Header("References")]
-    [SerializeField] CharacterController characterController;
+    [SerializeField] PlayerStateController playerStateController;
     [SerializeField] FirstPersonCamera firstPersonCamera;
     [SerializeField] PlayerMovement playerMovement;
-    [SerializeField] CameraAnimator cameraAnimator;
     [SerializeField] ObjectHolder objectHolder;
     [SerializeField] PlayerInput playerInput;
     [SerializeField] Interactor interactor;
@@ -17,19 +16,6 @@ public class PlayerController : MonoBehaviour
 
     bool usingObject;
     Vector2 lookInputs;
-
-    public void Enable()
-    {
-        firstPersonCamera.SetCurrentLookingPosition(new Vector2(firstPersonCamera.transform.eulerAngles.y, 0));
-        playerInput.enabled = true;
-        enabled = true;
-    }
-
-    public void Disable()
-    {
-        playerInput.enabled = false;
-        enabled = false;
-    }
 
     public void OnUse(InputAction.CallbackContext ctx)
     {
@@ -104,6 +90,12 @@ public class PlayerController : MonoBehaviour
             PauseMenu.I.TogglePause();
     }
 
+    public void OnBack(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+            playerStateController.Laptop.Quit();
+    }
+
     private void Update()
     {
         if (objectHolder.HasItem)
@@ -116,21 +108,4 @@ public class PlayerController : MonoBehaviour
         if (playerInput.currentControlScheme != "Keyboard&Mouse")
             firstPersonCamera.SetInputValues(lookInputs * Time.fixedDeltaTime);
     }
-
-    public void SetState(PlayerState state)
-    {
-        switch (state)
-        {
-            case PlayerState.None: playerInput.enabled = true; break;
-            case PlayerState.Laptop: playerInput.enabled = false; break;
-        }
-    }
-
-    public CameraAnimator CameraAnimator => cameraAnimator;
-}
-
-public enum PlayerState
-{
-    None,
-    Laptop
 }

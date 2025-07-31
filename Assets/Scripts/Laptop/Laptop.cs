@@ -7,24 +7,24 @@ public class Laptop : MonoBehaviour, IInteractable
     [SerializeField] LaptopCursor cursor;
     [SerializeField] TMP_Text moneyText;
 
-    PlayerController playerController;
+    PlayerStateController playerStateController;
 
 
     public void Interact(Interactor interactor)
     {
-        playerController = interactor.GetComponentInParent<PlayerController>();
-        playerController.SetState(PlayerState.Laptop);
-        playerController..CameraAnimator.Animate(new CameraCommand(cameraPosition, transform.forward, 0.25f));
+        playerStateController = interactor.GetComponentInParent<PlayerStateController>();
+        playerStateController.SetLaptop(this);
+        playerStateController.CameraAnimator.Animate(new CameraCommand(cameraPosition, transform.forward, 0.25f));
 
         cursor.Activate();
     }
 
     public void Quit()
     {
-        currentInteractor.FocusState.SetState(CharacterState.None, this);
-        currentInteractor.FocusState.CameraAnimator.ResetPosition();
+        playerStateController.SetNormal();
+        playerStateController.CameraAnimator.ResetPosition();
+        playerStateController = null;
 
-        currentInteractor = null;
         cursor.Deactivate();
     }
 
@@ -34,5 +34,5 @@ public class Laptop : MonoBehaviour, IInteractable
     }
 
     public string InteractText => "Hop online";
-    public bool CanInteract(Interactor interactor) => currentInteractor == null;
+    public bool CanInteract(Interactor interactor) => playerStateController == null;
 }

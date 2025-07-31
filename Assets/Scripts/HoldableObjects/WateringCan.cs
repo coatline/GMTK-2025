@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Broom : HoldableObject
+public class WateringCan : HoldableObject
 {
     [SerializeField] float sweepForce;
     [SerializeField] Transform sweepColliderPosition;
@@ -11,10 +11,11 @@ public class Broom : HoldableObject
 
         foreach (Collider hit in hits)
         {
-            Rigidbody rb = hit.attachedRigidbody;
+            if (hit.attachedRigidbody.name == "Watering plant")
+            {
 
-            if (rb != null && rb.name != "Player")
-                rb.AddForce(transform.forward * sweepForce);
+            }
+
         }
 
         base.StartUsing(direction);

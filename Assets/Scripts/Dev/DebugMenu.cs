@@ -17,7 +17,7 @@ public class DebugMenu : Singleton<DebugMenu>
     }
 
     public void DisplayValue(string id, GameObject gob) => DisplayValue(id, gob == null ? "null" : gob.name);
-    public void DisplayValue(string id, MonoBehaviour gob) => DisplayValue(id, gob == null ? "null" : gob.name);
+    public void DisplayValueGob(string id, MonoBehaviour gob) => DisplayValue(id, gob == null ? "null" : gob.name);
 
     public void DisplayValue(string id, string value)
     {

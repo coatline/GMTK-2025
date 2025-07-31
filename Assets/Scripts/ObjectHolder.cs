@@ -47,7 +47,7 @@ public class ObjectHolder : MonoBehaviour
         if (holdableObject != null)
             holdableObject.Hold(hand.position, new Vector3(0, hand.rotation.eulerAngles.y, hand.rotation.eulerAngles.z));
 
-        DebugMenu.I.DisplayValue("Holding", holdableObject);
+        DebugMenu.I.DisplayValueGob("Holding", holdableObject);
     }
 
     public bool HasItem => holdableObject != null;

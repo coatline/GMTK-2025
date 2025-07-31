@@ -44,6 +44,7 @@ public class TimeManager : Singleton<TimeManager>
         bedtimeText.text = $"Bedtime: {GetTimeString(bedtimeHour)}";
     }
 
+    public float TimeNormalized => currentHour / 24f;
     public string GetCurrentTimeString() => GetTimeString(currentHour);
     public static string GetTimeString(float hour, bool roundToHalfHour = true)
     {
@@ -65,5 +66,4 @@ public class TimeManager : Singleton<TimeManager>
         string ampm = hour < 12f ? "AM" : "PM";
         return $"{displayHour}:{displayMinutes:00}{ampm}";
     }
-
 }

@@ -33,12 +33,12 @@ public class ChoreManager : Singleton<ChoreManager>
         SetChores(week1Chores);
     }
 
-    private void Start()
+    void Start()
     {
-        GameManager.I.NewDay += GameManager_NewDay;
+        TimeManager.I.NewDay += NewDay;
     }
 
-    private void GameManager_NewDay()
+    void NewDay()
     {
         foreach (ChoreData data in AssignedChores)
             data.RecordDay();

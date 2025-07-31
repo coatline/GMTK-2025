@@ -837,6 +837,7 @@ GameObject:
   - component: {fileID: 82563843}
   - component: {fileID: 82563842}
   - component: {fileID: 82563844}
+  - component: {fileID: 82563845}
   m_Layer: 0
   m_Name: Plant
   m_TagString: Untagged
@@ -866,7 +867,7 @@ Transform:
   m_GameObject: {fileID: 82563841}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.247, y: 0.237, z: 4.292}
+  m_LocalPosition: {x: -3.399, y: 0.129, z: 4.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -895,6 +896,33 @@ MonoBehaviour:
   drySoilColor: {r: 1, g: 0.7790818, b: 0.514151, a: 1}
   healthyPlantColor: {r: 0.05724919, g: 1, b: 0, a: 1}
   deadPlantColor: {r: 0.12003497, g: 0.21698111, b: 0.10132608, a: 1}
+--- !u!54 &82563845
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82563841}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &159098862
 GameObject:
   m_ObjectHideFlags: 0
@@ -2834,6 +2862,7 @@ Transform:
   m_Children:
   - {fileID: 2091520840}
   - {fileID: 981947405}
+  - {fileID: 1516643423}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &735858579
@@ -2850,8 +2879,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 735858580}
   dropForce: 0
-  sweepForce: 0
-  sweepColliderPosition: {fileID: 0}
+  spawnWaterInterval: 0.1
+  waterDropPrefab: {fileID: -4801725633548719488, guid: e199f05d02505c143913959b7712ae37, type: 3}
+  waterSpawnPosition: {fileID: 1516643423}
 --- !u!54 &735858580
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5082,6 +5112,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.3639918, z: 0.5}
   m_Center: {x: 0, y: -1.0780041, z: 0}
+--- !u!1 &1516643422
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1516643423}
+  m_Layer: 0
+  m_Name: Water Spawn Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1516643423
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516643422}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.072, y: 0.113, z: 0.315}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 735858578}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1549800902
 GameObject:
   m_ObjectHideFlags: 0

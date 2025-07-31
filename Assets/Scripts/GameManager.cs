@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    public event System.Action NewDay;
-
     [SerializeField] PlayerStateController playerStateController;
     [SerializeField] Bed bed;
 
@@ -21,10 +19,5 @@ public class GameManager : Singleton<GameManager>
         yield return null;
         player.SleepController.Activate(bed);
         player.SleepController.SetSleeping();
-    }
-
-    public void EndDay()
-    {
-        NewDay?.Invoke();
     }
 }

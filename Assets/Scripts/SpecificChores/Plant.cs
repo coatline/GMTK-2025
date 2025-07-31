@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Plant : MonoBehaviour
 {
+    public event System.Action<float> Watered;
+
     [SerializeField] MeshRenderer soilMeshRenderer;
     [SerializeField] MeshRenderer plantMeshRenderer;
 
@@ -29,7 +31,7 @@ public class Plant : MonoBehaviour
         plantMeshRenderer.GetPropertyBlock(plantPropertyBlock);
 
         PlantHealthPercentage = 1f;
-        WaterPercentage = 0.75f;
+        WaterPercentage = 0.5f;
     }
 
     public void Water(float amount)
@@ -48,6 +50,18 @@ public class Plant : MonoBehaviour
             deathRate = 0.5f;
 
         PlantHealthPercentage -= TimeManager.I.WorldDeltaTime * hoursToDie * deathRate;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        WaterDrop waterDrop = collision.gameObject.GetComponent<WaterDrop>();
+
+        if (waterDrop != null)
+        {
+            Water(0.05f);
+            Destroy(waterDrop.gameObject);
+            Watered?.Invoke(waterPercentage);
+        }
     }
 
     float WaterPercentage

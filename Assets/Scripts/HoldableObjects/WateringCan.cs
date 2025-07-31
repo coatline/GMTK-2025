@@ -2,22 +2,28 @@ using UnityEngine;
 
 public class WateringCan : HoldableObject
 {
-    [SerializeField] float sweepForce;
-    [SerializeField] Transform sweepColliderPosition;
+    [SerializeField] float spawnWaterInterval;
+    [SerializeField] WaterDrop waterDropPrefab;
+    [SerializeField] Transform waterSpawnPosition;
 
-    public override void StartUsing(Vector2 direction)
+    IntervalTimer flowTimer;
+
+    private void Awake()
     {
-        Collider[] hits = Physics.OverlapBox(sweepColliderPosition.position, new Vector3(1, 0.5f, 1), Quaternion.identity);
+        flowTimer = new IntervalTimer(spawnWaterInterval, true);
+    }
 
-        foreach (Collider hit in hits)
+    public override void ContinueUsing(Vector3 direction)
+    {
+        if (flowTimer.DecrementIfRunning(Time.deltaTime))
         {
-            if (hit.attachedRigidbody.name == "Watering plant")
-            {
-
-            }
-
+            SpawnDroplet();
+            flowTimer.Start();
         }
+    }
 
-        base.StartUsing(direction);
+    void SpawnDroplet()
+    {
+        WaterDrop drop = Instantiate(waterDropPrefab, waterSpawnPosition.position, Quaternion.identity);
     }
 }

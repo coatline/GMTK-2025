@@ -10,10 +10,11 @@ public abstract class ChoreStation : MonoBehaviour
     void Start()
     {
         choreData = ChoreManager.I.GetChoreDataFromType(choreType);
-        Setup();
+        TimeManager.I.NewDay += NewDay;
+        NewDay();
     }
 
-    protected abstract void Setup();
+    protected abstract void NewDay();
 
     protected virtual void Complete()
     {

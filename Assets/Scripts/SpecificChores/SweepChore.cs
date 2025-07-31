@@ -4,8 +4,8 @@ using UnityEngine;
 public class SweepChore : ChoreStation
 {
     [SerializeField] Leaf leafPrefab;
-    [SerializeField] Transform leafSpawnCenter;
     [SerializeField] Vector2 leafSpawnArea;
+    [SerializeField] Transform leafSpawnCenter;
 
     [SerializeField] int minLeavesPerDay;
     [SerializeField] int maxLeavesPerDay;
@@ -13,7 +13,7 @@ public class SweepChore : ChoreStation
     int totalLeaves;
     int remainingLeaves;
 
-    protected override void Setup()
+    protected override void NewDay()
     {
         // Place leaves
         totalLeaves = GetTotalLeaves();
@@ -41,11 +41,5 @@ public class SweepChore : ChoreStation
         for (int i = 0; i < choreData.sequentialMissedDays + 1; i++)
             totalLeaves += Random.Range(minLeavesPerDay, maxLeavesPerDay);
         return totalLeaves;
-    }
-
-    protected override void Complete()
-    {
-        print("complete");
-        base.Complete();
     }
 }

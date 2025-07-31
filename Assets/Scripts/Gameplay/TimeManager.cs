@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class TimeManager : Singleton<TimeManager>
 {
+    public event System.Action NewDay;
+
     [Header("Time Settings")]
     [Range(0f, 24f)]
     [SerializeField] float currentHour = 6f; // Start at 6 AM
@@ -14,6 +16,8 @@ public class TimeManager : Singleton<TimeManager>
     [Header("UI")]
     [SerializeField] TMP_Text currentTimeText;
     [SerializeField] TMP_Text bedtimeText;
+
+    bool midnightTriggered;
 
     void Start()
     {
@@ -28,10 +32,25 @@ public class TimeManager : Singleton<TimeManager>
 
     void UpdateTime()
     {
+        float prevHour = currentHour;
+
         currentHour += WorldDeltaTime;
 
-        if (currentHour >= 25)
+        if (midnightTriggered == false)
+        {
+            // Did it just turn midnight?
+            if (prevHour < 24 && currentHour >= 24)
+            {
+                midnightTriggered = true;
+                NewDay?.Invoke();
+            }
+        }
+        // Loop back to 1AM
+        else if (currentHour >= 25)
+        {
             currentHour = 1;
+            midnightTriggered = false;
+        }
     }
 
     void UpdateTimeDisplay()

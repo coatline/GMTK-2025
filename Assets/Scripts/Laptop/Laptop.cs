@@ -29,7 +29,7 @@ public class Laptop : MonoBehaviour, IInteractable
 
     public void Purchase()
     {
-        print("Bought something.");
+
     }
 
     public string InteractText => "Hop online";

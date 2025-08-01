@@ -118,7 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundDetector: {fileID: 3469867876252090358}
   minJumpDelay: 0.2
-  jumpForce: 3.25
+  jumpForce: 3.5
   rb: {fileID: 7745794388117001086}
 --- !u!23 &3999456329608443112
 MeshRenderer:

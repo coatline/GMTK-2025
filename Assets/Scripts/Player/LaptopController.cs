@@ -50,6 +50,9 @@ public class LaptopController : PlayerState
 
     public void OnMoveCursor(InputAction.CallbackContext ctx)
     {
+        if (Cursor.visible || Cursor.lockState != CursorLockMode.Locked)
+            return;
+
         //if (currentControlScheme == "Keyboard&Mouse")
         laptop.LaptopCursor.Move(ctx.ReadValue<Vector2>() * Time.deltaTime);
         //else

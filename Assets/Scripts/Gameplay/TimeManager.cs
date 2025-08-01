@@ -17,7 +17,7 @@ public class TimeManager : Singleton<TimeManager>
     private void Start()
     {
         timedCallbacks = new List<TimedCallback>();
-        RegisterDailyFunction(new TimedCallback(24, NewDay));
+        ScheduleFunction(new TimedCallback(24, NewDay));
     }
 
     void UpdateTime()
@@ -25,13 +25,16 @@ public class TimeManager : Singleton<TimeManager>
         float prevHour = currentHour;
         currentHour += WorldDeltaTime;
 
-        for (int i = 0; i < timedCallbacks.Count; i++)
+        for (int i = timedCallbacks.Count - 1; i >= 0; i--)
         {
             TimedCallback cb = timedCallbacks[i];
-            if (!cb.triggeredToday && prevHour < cb.targetHour && currentHour >= cb.targetHour)
+            if (cb.triggeredToday == false && prevHour < cb.targetHour && currentHour >= cb.targetHour)
             {
                 cb.function?.Invoke();
                 cb.triggeredToday = true;
+
+                if (cb.oneshot)
+                    timedCallbacks.Remove(cb);
             }
         }
 
@@ -54,8 +57,8 @@ public class TimeManager : Singleton<TimeManager>
     public float WorldDeltaTime => Time.deltaTime * (timeMultiplier / 60f);
     public string GetCurrentTimeString() => GetTimeString(currentHour);
     public void SetTimeMultiplier(float multiplier) => timeMultiplier = multiplier;
-    public void RegisterDailyFunction(TimedCallback timedCallback) => timedCallbacks.Add(timedCallback);
-    public void RemoveTimedCallback(TimedCallback timedCallback) => timedCallbacks.Remove(timedCallback);
+    public void ScheduleFunction(TimedCallback timedCallback) => timedCallbacks.Add(timedCallback);
+    public void RemoveScheduledFunction(TimedCallback timedCallback) => timedCallbacks.Remove(timedCallback);
 
     public static string GetTimeString(float hour, bool roundToHalfHour = true)
     {
@@ -81,14 +84,16 @@ public class TimeManager : Singleton<TimeManager>
 
 public class TimedCallback
 {
+    public bool oneshot;
     public float targetHour;
     public bool triggeredToday;
     public System.Action function;
 
-    public TimedCallback(float targetHour, Action function, bool triggeredToday = false)
+    public TimedCallback(float targetHour, Action function, bool skipToday = false, bool oneshot = false)
     {
-        this.triggeredToday = triggeredToday;
+        this.triggeredToday = skipToday;
         this.targetHour = targetHour;
         this.function = function;
+        this.oneshot = oneshot;
     }
 }

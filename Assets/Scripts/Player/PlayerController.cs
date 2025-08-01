@@ -16,7 +16,7 @@ public class PlayerController : PlayerState
     Vector2 lookInputs;
     bool usingObject;
 
-    public void OnUse(InputAction.CallbackContext ctx)
+    void OnUse(InputAction.CallbackContext ctx)
     {
         float val = ctx.ReadValue<float>();
 
@@ -38,36 +38,36 @@ public class PlayerController : PlayerState
         }
     }
 
-    public void OnDrop(InputAction.CallbackContext ctx)
+    void OnDrop(InputAction.CallbackContext ctx)
     {
         if (ctx.started)
             if (objectHolder.HasItem)
                 objectHolder.TryDrop();
     }
 
-    public void OnJump(InputAction.CallbackContext ctx)
+    void OnJump(InputAction.CallbackContext ctx)
     {
         if (ctx.started)
             jumper.TryJump();
     }
 
-    public void OnInteract(InputAction.CallbackContext ctx)
+    void OnInteract(InputAction.CallbackContext ctx)
     {
         if (ctx.started)
             interactor.TryInteract();
     }
 
-    public void OnMove(InputAction.CallbackContext ctx)
+    void OnMove(InputAction.CallbackContext ctx)
     {
         playerMovement.SetMoveInput(ctx.ReadValue<Vector2>());
     }
 
-    public void OnSprint(InputAction.CallbackContext ctx)
+    void OnSprint(InputAction.CallbackContext ctx)
     {
         playerMovement.SetIsSprinting(ctx.ReadValueAsButton());
     }
 
-    public void OnLook(InputAction.CallbackContext ctx)
+    void OnLook(InputAction.CallbackContext ctx)
     {
         if (Cursor.visible || Cursor.lockState != CursorLockMode.Locked)
             return;
@@ -83,7 +83,7 @@ public class PlayerController : PlayerState
         //}
     }
 
-    public void OnPause(InputAction.CallbackContext ctx)
+    void OnPause(InputAction.CallbackContext ctx)
     {
         if (ctx.started)
             PauseMenu.I.TogglePause();

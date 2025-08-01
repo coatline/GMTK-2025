@@ -10,7 +10,6 @@ public class SleepController : PlayerState
     [SerializeField] EyesCloseAnimation sleepAnimation;
     [SerializeField] PlayerController playerController;
     [SerializeField] CameraAnimator cameraAnimator;
-    [SerializeField] Transform characterTransform;
     [SerializeField] PlayerInputs playerInputs;
     [SerializeField] AudioSource audioSource;
     [SerializeField] TMP_Text sleepingZText;
@@ -29,7 +28,7 @@ public class SleepController : PlayerState
         EnableInputs();
         NotifyActivated();
 
-        characterTransform.position = bed.SleepPosition.position;
+        transform.position = bed.SleepPosition.position;
         goingToSleepCoroutine = StartCoroutine(GoToSleepAnimation());
     }
 
@@ -48,7 +47,7 @@ public class SleepController : PlayerState
 
         EnableInputs();
         NotifyActivated();
-        characterTransform.position = bed.SleepPosition.position;
+        transform.position = bed.SleepPosition.position;
 
         sleepAnimation.SetAlpha(1f);
         cameraAnimator.Animate(new CameraCommand(cameraAnimator.NormalPosition, -bed.transform.forward + new Vector3(0, 0.75f, 0), 0.01f));
@@ -77,7 +76,7 @@ public class SleepController : PlayerState
         DisableInputs();
         sleepingUI.SetActive(false);
         TimeManager.I.SetTimeMultiplier(1);
-        characterTransform.position = bed.WakePosition.position;
+        transform.position = bed.WakePosition.position;
         StartCoroutine(GetUpAnimation());
     }
 

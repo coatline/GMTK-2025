@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class ParentController : MonoBehaviour
 {
-    [SerializeField] List<ScheduledState> routine;
+    //[SerializeField] List<ScheduledState> routine;
+    [SerializeField] ParentSpeechController parentSpeechController;
+    [SerializeField] List<PlayerState> playerStates;
     [SerializeField] LayerMask playerLayer;
     [SerializeField] float detectionRange;
     [SerializeField] Transform lookPosition;
@@ -11,25 +13,30 @@ public class ParentController : MonoBehaviour
     private ParentState currentState;
     private int nextIndex = 0;
 
+    private void Start()
+    {
+
+    }
+
     void Update()
     {
         DetectPlayer();
-        TryChangeState();
+        //TryChangeState();
     }
 
-    void TryChangeState()
-    {
-        float currentHour = TimeManager.I.GetHour;
+    //void TryChangeState()
+    //{
+    //    float currentHour = TimeManager.I.GetHour;
 
-        if (nextIndex < routine.Count && currentHour >= routine[nextIndex].hour)
-        {
-            SwitchState(routine[nextIndex].state);
-            nextIndex++;
-        }
+    //    if (nextIndex < routine.Count && currentHour >= routine[nextIndex].hour)
+    //    {
+    //        SwitchState(routine[nextIndex].state);
+    //        nextIndex++;
+    //    }
 
-        // Wrap at end of day
-        if (currentHour < routine[0].hour) nextIndex = 0;
-    }
+    //    // Wrap at end of day
+    //    if (currentHour < routine[0].hour) nextIndex = 0;
+    //}
 
     void SwitchState(ParentState newState)
     {

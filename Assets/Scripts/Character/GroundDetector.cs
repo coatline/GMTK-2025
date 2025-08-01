@@ -14,7 +14,6 @@ public class GroundDetector : MonoBehaviour
     private void FixedUpdate()
     {
         foreach (var point in raycastPoints)
-        {
             if (Physics.Raycast(point.position, Vector3.down, raycastDepth, groundLayer))
             {
                 if (IsOnGround == false)
@@ -25,7 +24,6 @@ public class GroundDetector : MonoBehaviour
 
                 return;
             }
-        }
 
         IsOnGround = false;
     }

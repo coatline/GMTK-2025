@@ -1,16 +1,10 @@
 using UnityEngine;
 
-public class ParentState : MonoBehaviour
+public abstract class ParentState : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] protected ParentController parentController;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public abstract void Perform(float deltaTime);
+    public abstract void Enter();
+    public abstract void Exit();
 }

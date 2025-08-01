@@ -57,6 +57,10 @@ public class TimeManager : Singleton<TimeManager>
         UpdateTime();
     }
 
+    /// <summary>
+    /// 0 - 1 is 1AM, 1 - 2 is 2AM, etc.
+    /// </summary>
+    public float GetHour => currentHour;
     public float TimeNormalized => currentHour / 24f;
     public float WorldDeltaTime => Time.deltaTime * (timeMultiplier / 60f);
     public string GetCurrentTimeString() => GetTimeString(currentHour);

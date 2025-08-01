@@ -15,13 +15,12 @@ public class SweepChore : ChoreStation
 
     protected override void NewDay()
     {
-        print(totalLeaves);
-
         // Place leaves
-        totalLeaves += GetTotalLeaves();
+        int newTotal = GetTotalLeaves();
+        totalLeaves += newTotal;
         remainingLeaves = totalLeaves;
 
-        for (int i = 0; i < totalLeaves; i++)
+        for (int i = 0; i < newTotal; i++)
         {
             Leaf newLeaf = Instantiate(leafPrefab, leafSpawnCenter.position + new Vector3(Random.Range(-leafSpawnArea.x, leafSpawnArea.x), 0, Random.Range(-leafSpawnArea.y, leafSpawnArea.y)), Quaternion.Euler(0, 0, Random.Range(0, 360f)), transform);
             newLeaf.Destroyed += Leaf_Destroyed;

@@ -75,7 +75,7 @@ public class PlayerController : PlayerState
 
         //if (playerInput.currentControlScheme == "Keyboard&Mouse")
         //{
-        firstPersonCamera.MoveCamera(ctx.ReadValue<Vector2>() * Time.deltaTime);
+        firstPersonCamera.MoveCamera(ctx.ReadValue<Vector2>());
         lookInputs = Vector2.zero;
         //}
         //else

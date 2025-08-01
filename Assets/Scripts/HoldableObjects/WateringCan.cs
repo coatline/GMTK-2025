@@ -5,6 +5,7 @@ public class WateringCan : HoldableObject
     [SerializeField] float spawnWaterInterval;
     [SerializeField] WaterDrop waterDropPrefab;
     [SerializeField] Transform waterSpawnPosition;
+    [SerializeField] AudioSource audioSource;
 
     IntervalTimer flowTimer;
 
@@ -13,18 +14,29 @@ public class WateringCan : HoldableObject
         flowTimer = new IntervalTimer(spawnWaterInterval, true);
     }
 
+    public override void StartUsing(Vector2 direction)
+    {
+        audioSource.Play();
+    }
+
     public override void ContinueUsing(Vector3 direction)
     {
         if (flowTimer.DecrementIfRunning(Time.deltaTime))
         {
-            SpawnDroplet();
+            Instantiate(waterDropPrefab, waterSpawnPosition.position, Quaternion.identity);
             flowTimer.Start();
         }
     }
 
-    void SpawnDroplet()
+    public override void FinishUsing(Vector3 direction)
     {
-        WaterDrop drop = Instantiate(waterDropPrefab, waterSpawnPosition.position, Quaternion.identity);
+        audioSource.Stop();
+    }
+
+    protected override void LeaveHand()
+    {
+        audioSource.Stop();
+        base.LeaveHand();
     }
 
     public override string InteractText => $"pickup watering can";

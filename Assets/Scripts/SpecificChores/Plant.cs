@@ -6,6 +6,7 @@ public class Plant : MonoBehaviour
 
     [SerializeField] MeshRenderer soilMeshRenderer;
     [SerializeField] MeshRenderer plantMeshRenderer;
+    [SerializeField] BounceAnimation bounceAnimation;
 
     [SerializeField] float hoursToDry;
     [SerializeField] float hoursToDie;
@@ -49,7 +50,7 @@ public class Plant : MonoBehaviour
         else if (WaterPercentage < 0.2f)
             deathRate = 0.5f;
 
-        PlantHealthPercentage -= TimeManager.I.WorldDeltaTime * hoursToDie * deathRate;
+        PlantHealthPercentage -= (TimeManager.I.WorldDeltaTime * deathRate) / hoursToDie;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -59,6 +60,7 @@ public class Plant : MonoBehaviour
         if (waterDrop != null)
         {
             Water(0.05f);
+            bounceAnimation.Bounce(10f, 0.01f);
             Destroy(waterDrop.gameObject);
             Watered?.Invoke(waterPercentage);
         }

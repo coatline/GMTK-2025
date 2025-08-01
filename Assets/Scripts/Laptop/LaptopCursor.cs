@@ -28,7 +28,7 @@ public class LaptopCursor : MonoBehaviour
 
     public void Move(Vector2 delta)
     {
-        delta *= speed * Time.deltaTime;
+        delta *= speed;
         currentPos += delta;
 
         // Clamp cursor inside canvas

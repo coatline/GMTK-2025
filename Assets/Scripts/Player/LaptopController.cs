@@ -16,6 +16,8 @@ public class LaptopController : PlayerState
         NotifyActivated();
         this.laptop = laptop;
         EnableInput();
+
+        SoundPlayer.I.PlaySound("LaptopSignIn", transform.position);
         cameraAnimator.Animate(laptop.LaptopCameraCommand);
     }
 
@@ -23,6 +25,8 @@ public class LaptopController : PlayerState
     {
         DisableInput();
         StartCoroutine(ResetCameraAndExit());
+
+        SoundPlayer.I.PlaySound("LaptopSignOut", transform.position);
     }
 
     IEnumerator ResetCameraAndExit()

@@ -14,10 +14,12 @@ public class DeliveryBox : HoldableObject
 
     public override void StartUsing(Vector2 direction)
     {
+        SoundPlayer.I.PlaySound("OpenPackage", transform.position);
+
         ParticleSystem ps = Instantiate(openParticlesPrefab, transform.position, transform.rotation);
         Instantiate(itemType.prefab, transform.position, transform.rotation);
-        Destroy(gameObject);
 
+        Destroy(gameObject);
         Destroy(ps.gameObject, 1f);
     }
 

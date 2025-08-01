@@ -12,7 +12,7 @@ public class DebugKeys : MonoBehaviour
             ()=>NextScene(1),
             ToggleDebugMenu,
             () => TimeManager.I.SetTimeMultiplier(1),
-            () => TimeManager.I.SetTimeMultiplier(6),
+            () => TimeManager.I.SetTimeMultiplier(60),
         };
     }
 

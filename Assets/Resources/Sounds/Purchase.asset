@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc28e158617a3664787c3f2d95069fc2, type: 3}
   m_Name: Purchase
   m_EditorClassIdentifier: 
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: 88780f00151026b49a3e4bb420e08c86, type: 3}
+  - {fileID: 8300000, guid: b3e7f2265c902444e98efba8d9cc4370, type: 3}
   pitchShiftRange: {x: 0, y: 0}

@@ -7,7 +7,7 @@ public class Bed : MonoBehaviour, IInteractable
 
     public void Interact(Interactor interactor)
     {
-        interactor.GetComponentInParent<PlayerStateController>().SleepController.Activate(this);
+        interactor.GetComponentInParent<PlayerStateController>().SleepController.GetInBed(this);
     }
 
     public Transform WakePosition => wakePosition;

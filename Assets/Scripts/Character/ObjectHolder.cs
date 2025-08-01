@@ -8,7 +8,7 @@ public class ObjectHolder : MonoBehaviour
 
     public void Pickup(HoldableObject holdableObject)
     {
-        //SoundPlayer.I.PlaySound(pickupSound, transform.position);
+        SoundPlayer.I.PlaySound("PickupObject", transform.position);
         this.holdableObject = holdableObject;
         holdableObject.Pickup();
         holdableObject.LeftHand += HoldableObject_LeftHand;
@@ -25,6 +25,7 @@ public class ObjectHolder : MonoBehaviour
     public void TryDrop()
     {
         holdableObject.Drop(transform.forward);
+        SoundPlayer.I.PlaySound("DropObject", hand.position);
     }
 
     public void FinishUsing()

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -13,6 +13,8 @@ public class TimeManager : Singleton<TimeManager>
     [SerializeField] float timeMultiplier;
 
     List<TimedCallback> timedCallbacks;
+
+    public int Day { get; private set; }
 
     private void Start()
     {
@@ -38,14 +40,16 @@ public class TimeManager : Singleton<TimeManager>
             }
         }
 
-        if (currentHour >= 25)
+        if (currentHour >= 24)
         {
-            currentHour = 1;
+            Day++;
+            currentHour = 0;
 
             for (int i = 0; i < timedCallbacks.Count; i++)
                 timedCallbacks[i].triggeredToday = false;
         }
 
+        DebugMenu.I.DisplayValue("Time", currentHour.ToString("F2"));
     }
 
     void Update()
@@ -64,18 +68,15 @@ public class TimeManager : Singleton<TimeManager>
     {
         int totalMinutes = Mathf.FloorToInt(hour * 60f);
 
-        if (roundToHalfHour)
-        {
-            int remainder = totalMinutes % 60;
-            totalMinutes -= remainder;
-            if (remainder >= 45) totalMinutes += 60;
-            else if (remainder >= 15) totalMinutes += 30;
-            // else keep it at :00
-        }
-
         int displayHour = (totalMinutes / 60) % 12;
         if (displayHour == 0) displayHour = 12;
         int displayMinutes = totalMinutes % 60;
+
+        if (roundToHalfHour)
+        {
+            if (displayMinutes >= 30) displayMinutes = 30;
+            else displayMinutes = 0;
+        }
 
         string ampm = hour < 12f ? "am" : "pm";
         return $"{displayHour}:{displayMinutes:00}{ampm}";

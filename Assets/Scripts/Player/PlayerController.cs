@@ -11,6 +11,7 @@ public class PlayerController : PlayerState
     [SerializeField] ObjectHolder objectHolder;
     [SerializeField] PlayerInputs playerInputs;
     [SerializeField] Interactor interactor;
+    [SerializeField] GameObject staminaBar;
     [SerializeField] Jumper jumper;
 
     Vector2 lookInputs;
@@ -126,10 +127,17 @@ public class PlayerController : PlayerState
         playerInputs.Paused -= OnPause;
     }
 
-    public void Activate() { NotifyActivated(); EnableInputs(); }
+    public void Activate() 
+    { 
+        NotifyActivated();
+        EnableInputs();
+        staminaBar.SetActive(true);
+    }
+
     public override void Exit()
     {
         DisableInputs();
+        staminaBar.SetActive(false);
         playerMovement.SetMoveInput(Vector2.zero);
     }
 }

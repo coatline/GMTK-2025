@@ -20,4 +20,6 @@ public class DeliveryBox : HoldableObject
 
         Destroy(ps.gameObject, 1f);
     }
+
+    public override string InteractText => $"pickup box";
 }

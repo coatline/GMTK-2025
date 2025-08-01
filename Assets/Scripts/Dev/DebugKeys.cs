@@ -6,11 +6,13 @@ public class DebugKeys : MonoBehaviour
 
     private void Awake()
     {
-        debugActions = new System.Action[3]
+        debugActions = new System.Action[5]
         {
             ReloadScene,
             ()=>NextScene(1),
-            ToggleDebugMenu
+            ToggleDebugMenu,
+            () => TimeManager.I.SetTimeMultiplier(1),
+            () => TimeManager.I.SetTimeMultiplier(6),
         };
     }
 

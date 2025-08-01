@@ -26,4 +26,6 @@ public class WateringCan : HoldableObject
     {
         WaterDrop drop = Instantiate(waterDropPrefab, waterSpawnPosition.position, Quaternion.identity);
     }
+
+    public override string InteractText => $"pickup watering can";
 }

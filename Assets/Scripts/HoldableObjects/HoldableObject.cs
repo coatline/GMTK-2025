@@ -8,7 +8,7 @@ public class HoldableObject : MonoBehaviour, IInteractable
 
     [SerializeField] protected Rigidbody rb;
     [SerializeField] float dropForce;
-    
+
     public bool BeingHeld { get; protected set; }
     public Rigidbody Rigidbody => rb;
 
@@ -61,6 +61,6 @@ public class HoldableObject : MonoBehaviour, IInteractable
     public virtual void StartUsing(Vector2 direction) { }
     public virtual void ContinueUsing(Vector3 direction) { }
     public virtual void FinishUsing(Vector3 direction) { }
-    public string InteractText => $"Pickup {name}";
+    public virtual string InteractText => $"pickup {name}";
     public bool CanInteract(Interactor interactor) => interactor.ObjectHolder.HasItem == false;
 }

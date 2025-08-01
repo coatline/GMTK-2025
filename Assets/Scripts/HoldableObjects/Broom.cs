@@ -16,7 +16,7 @@ public class Broom : HoldableObject
             if (rb != null && rb.name != "Character")
                 rb.AddForce((transform.forward + new Vector3(0, .25f, 0)) * sweepForce);
         }
-
-        base.StartUsing(direction);
     }
+
+    public override string InteractText => $"pickup broom";
 }

@@ -9,7 +9,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] PlayerStateController playerStateController;
     [SerializeField] DeliveryBox deliveryBoxPrefab;
     [SerializeField] Transform deliverySpot;
-    [SerializeField] TMP_Text bedtimeText;
 
     [SerializeField] float bedtimeHour;
     [SerializeField] Bed bed;
@@ -31,7 +30,6 @@ public class GameManager : Singleton<GameManager>
     {
         base.Awake();
         player = Instantiate(playerStateController);
-        bedtimeText.text = $"{TimeManager.GetTimeString(bedtimeHour)}";
     }
 
     private IEnumerator Start()

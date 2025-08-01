@@ -13,6 +13,7 @@ public class SleepController : PlayerState
     [SerializeField] PlayerInputs playerInputs;
     [SerializeField] GameObject sleepingUI;
 
+    Coroutine goingToSleepCoroutine;
     Bed bed;
 
     public void Activate(Bed bed)
@@ -23,7 +24,7 @@ public class SleepController : PlayerState
         NotifyActivated();
 
         characterTransform.position = bed.SleepPosition.position;
-        StartCoroutine(GoToSleepAnimation());
+        goingToSleepCoroutine = StartCoroutine(GoToSleepAnimation());
     }
 
     IEnumerator GoToSleepAnimation()
@@ -53,6 +54,8 @@ public class SleepController : PlayerState
 
     public void GetUp()
     {
+        if (goingToSleepCoroutine != null) StopCoroutine(goingToSleepCoroutine);
+
         DisableInputs();
         sleepingUI.SetActive(false);
         TimeManager.I.SetTimeMultiplier(1);

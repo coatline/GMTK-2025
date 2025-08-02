@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 564d3497ca3e441499f8dc6918c4ccdc, type: 3}
-  m_Name: Broom v2.0
+  m_Name: Leaf Blower
   m_EditorClassIdentifier: 
-  price: 1
-  sprite: {fileID: 21300000, guid: 5ded71074449eda40b2d9949d4997cbe, type: 3}
-  boxSize: {x: 0.4, y: 1.4, z: 0.4}
-  prefab: {fileID: 1506604940265598223, guid: c9e39fbfe3633ee4aab5d74243aedd7c, type: 3}
+  price: 10
+  sprite: {fileID: 21300000, guid: c6ad88b60982f1c46900ebe873810217, type: 3}
+  boxSize: {x: 0.6, y: 0.5, z: 1.25}
+  prefab: {fileID: 3441813623567340198, guid: cc3e63879f813c24583ffbdd1505a5d1, type: 3}

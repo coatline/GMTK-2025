@@ -11,8 +11,8 @@ public class DebugKeys : MonoBehaviour
             ReloadScene,
             ()=>NextScene(1),
             ToggleDebugMenu,
-            () => TimeManager.I.SetTimeMultiplier(1),
-            () => TimeManager.I.SetTimeMultiplier(60),
+            ToggleTime,
+           ()=>GameManager.I.Money += 100
         };
     }
 
@@ -37,5 +37,13 @@ public class DebugKeys : MonoBehaviour
     void ToggleDebugMenu()
     {
         DebugMenu.I.Toggle();
+    }
+
+    void ToggleTime()
+    {
+        if (TimeManager.I.TimeMultiplier == 1)
+            TimeManager.I.SetTimeMultiplier(60);
+        else
+            TimeManager.I.SetTimeMultiplier(1);
     }
 }

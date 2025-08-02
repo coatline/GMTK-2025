@@ -18,7 +18,7 @@ public class MoneyText : MonoBehaviour
     {
         if (prevMoney == money) return;
 
-        text.text = $"${money}";
+        text.text = $"${money:0.00}";
         bounceAnimation.Bounce(10f, Mathf.Clamp(Mathf.Abs((prevMoney - money) / 10), 0, 3));
 
         prevMoney = money;

@@ -25,7 +25,6 @@ public class TimeManager : Singleton<TimeManager>
     {
         base.Awake();
         timedCallbacks = new List<TimedCallback>();
-        ScheduleFunction(new TimedCallback(24, NewDay));
         secondsPerGameHour = (realMinutesPerDay * 60f) / 24f;
         secondsPerGameMinute = secondsPerGameHour / 60f;
         TimeMultiplier = 1;
@@ -56,6 +55,8 @@ public class TimeManager : Singleton<TimeManager>
 
             for (int i = 0; i < timedCallbacks.Count; i++)
                 timedCallbacks[i].triggeredToday = false;
+
+            NewDay?.Invoke();
         }
 
         DebugMenu.I.DisplayValue("Time", $"{currentHour.ToString("F2")} {GetTimeString(currentHour, false)}");

@@ -76,10 +76,7 @@ public class ParentController : MonoBehaviour
         if (distance <= currentState.MinDistance)
         {
             if (navMeshAgent.isStopped == false)
-            {
-                print($"Made it. {distance}");
                 navMeshAgent.isStopped = true;
-            }
 
             parentSpeechController.Say($"Doing {currentState.GetType().Name}");
 

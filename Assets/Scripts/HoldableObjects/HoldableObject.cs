@@ -63,4 +63,5 @@ public class HoldableObject : MonoBehaviour, IInteractable
     public virtual void FinishUsing(Vector3 direction) { }
     public virtual string InteractText => $"pickup {name}";
     public bool CanInteract(Interactor interactor) => interactor.ObjectHolder.HasItem == false;
+    public virtual bool RotateVertically => false;
 }

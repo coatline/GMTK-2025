@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a440516a02fdca74095acf5cad04b818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 857434413365446616}
+  dropForce: 15
   gravityScale: 0.5
   airSpinStrength: 30
   lateralThreshold: 0.5
@@ -55,7 +57,6 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 0
-  rb: {fileID: 857434413365446616}
 --- !u!33 &2186499493090545875
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -116,7 +117,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230219630182996653}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 1d107b900d21fb04cb965c6a6d732f8e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -139,7 +140,7 @@ Rigidbody:
   m_GameObject: {fileID: 230219630182996653}
   serializedVersion: 4
   m_Mass: 0.1
-  m_Drag: 10
+  m_Drag: 5
   m_AngularDrag: 0.01
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}

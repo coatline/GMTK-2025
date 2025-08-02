@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Sweep
   m_EditorClassIdentifier: 
   description: Get the leaves off the porch.
-  moneyOnComplete: 4
+  moneyOnComplete: 3.5

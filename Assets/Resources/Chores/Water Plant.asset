@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Water Plant
   m_EditorClassIdentifier: 
   description: Give the plant water.
-  moneyOnComplete: 1
+  moneyOnComplete: 1.5

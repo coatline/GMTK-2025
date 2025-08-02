@@ -4,6 +4,7 @@ public class Broom : HoldableObject
 {
     [SerializeField] float sweepForce;
     [SerializeField] Transform sweepColliderPosition;
+    [SerializeField] ParticleSystem sweepParticleSystem;
 
     public override void StartUsing(Vector2 direction)
     {
@@ -21,6 +22,8 @@ public class Broom : HoldableObject
                 rb.AddForce((transform.forward + new Vector3(0, .25f, 0)) * sweepForce);
             }
         }
+
+        sweepParticleSystem.Emit(10);
     }
 
     public override string InteractText => $"pickup broom";

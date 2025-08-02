@@ -20,6 +20,7 @@ public class ShopChoiceUI : MonoBehaviour
 
     public void UpdateUI()
     {
+        itemName.text = item.name;
         itemPreview.sprite = item.sprite;
         costText.text = $"${item.price:F00}";
         buyButton.interactable = GameManager.I.Money >= item.price;

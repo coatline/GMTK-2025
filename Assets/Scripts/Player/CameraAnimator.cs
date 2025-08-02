@@ -39,14 +39,13 @@ public class CameraAnimator : MonoBehaviour
 
         if (percentageComplete >= 1f)
         {
-            transform.position = currentCommand.targetTransform.position;
-
             if (currentCommand.lookDirection != Vector3.zero)
             {
                 Quaternion targetRot = Quaternion.LookRotation(currentCommand.lookDirection);
                 transform.rotation = targetRot;
             }
 
+            transform.position = currentCommand.targetTransform.position;
             currentCommand.Finish();
             currentCommand = null;
         }

@@ -15,6 +15,8 @@ public class SweepChore : ChoreStation
 
     protected override void NewDay()
     {
+        print("New Day");
+
         // Place leaves
         int newTotal = GetTotalLeaves();
         totalLeaves += newTotal;

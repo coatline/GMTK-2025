@@ -1027,6 +1027,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stock:
   - {fileID: 11400000, guid: dcf65e359ca81414393e2bd5b27b7e73, type: 2}
+  - {fileID: 11400000, guid: 652b9b5a303f11941a02529e8e22f910, type: 2}
   moneyText: {fileID: 2629628331053978819}
   shopChoiceHolder: {fileID: 7616260018069149019}
   shopChoiceUIPrefab: {fileID: 5776581342270261430, guid: 4e5fb9f3602a9ae45b6cb4a404f4fed1, type: 3}

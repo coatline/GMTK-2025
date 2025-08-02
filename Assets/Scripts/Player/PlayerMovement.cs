@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float walkSpeed = 3f;
     [SerializeField] float sprintSpeed = 6f;
     [SerializeField] float acceleration;
+
+    [Header("Stamina")]
+    [SerializeField] float staminaRefillTime = 5f;
     [SerializeField] float maxStamina;
     [SerializeField] Image staminaBar;
     [SerializeField] Rigidbody rb;
@@ -56,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
                 SetIsSprinting(false);
         }
         else if (stamina < maxStamina)
-            stamina += Time.deltaTime / 6f;
+            stamina += Time.deltaTime / staminaRefillTime;
         else if (stamina > maxStamina)
         {
             stamina = maxStamina;

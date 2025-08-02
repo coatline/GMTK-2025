@@ -28,9 +28,9 @@ public class ObjectHolder : MonoBehaviour
         SoundPlayer.I.PlaySound("DropObject", hand.position);
     }
 
-    public void FinishUsing()
+    public void StartUsing()
     {
-        holdableObject.FinishUsing(transform.forward);
+        holdableObject.StartUsing(transform.forward);
     }
 
     public void ContinueUsing()
@@ -38,15 +38,18 @@ public class ObjectHolder : MonoBehaviour
         holdableObject.ContinueUsing(transform.forward);
     }
 
-    public void StartUsing()
+    public void FinishUsing()
     {
-        holdableObject.StartUsing(transform.forward);
+        holdableObject.FinishUsing(transform.forward);
     }
 
     private void Update()
     {
         if (holdableObject != null)
-            holdableObject.Hold(hand.position, new Vector3(0, hand.rotation.eulerAngles.y, hand.rotation.eulerAngles.z));
+        {
+
+            holdableObject.Hold(hand.position, new Vector3(holdableObject.RotateVertically ? Camera.main.transform.rotation.eulerAngles.x : 0, hand.rotation.eulerAngles.y, hand.rotation.eulerAngles.z));
+        }
 
         DebugMenu.I.DisplayValueGob("Holding", holdableObject);
     }

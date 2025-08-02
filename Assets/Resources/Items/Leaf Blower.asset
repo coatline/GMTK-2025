@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 10
   sprite: {fileID: 21300000, guid: c6ad88b60982f1c46900ebe873810217, type: 3}
-  boxSize: {x: 0.6, y: 0.5, z: 1.25}
+  boxSize: {x: 0.6, y: 0.75, z: 1.25}
   prefab: {fileID: 3441813623567340198, guid: cc3e63879f813c24583ffbdd1505a5d1, type: 3}

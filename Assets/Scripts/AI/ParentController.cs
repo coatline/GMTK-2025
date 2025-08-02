@@ -18,7 +18,6 @@ public class ParentController : MonoBehaviour
     [SerializeField] float angularSpeed;
     [SerializeField] float acceleration;
     [SerializeField] Animator animator;
-    [SerializeField] Bed bed;
 
     ParentThought currentThought;
     ParentState currentState;
@@ -41,17 +40,19 @@ public class ParentController : MonoBehaviour
         if (currentThought == null)
             SetThought(RandomThought());
 
-        DebugMenu.I.DisplayValue($"{name}", $"${currentThought.TypeName} : {currentState.StateName}");
-
         currentThought.Think();
         currentState?.Update();
+
+        if (currentThought != null && currentState != null)
+            DebugMenu.I.DisplayValue($"{name}", $"{currentThought.TypeName} : {currentState.ActionName}");
     }
 
     public void SetThought(ParentThought newThought)
     {
         if (currentThought == newThought) return;
 
-        SetState(null);
+        print($"{name} thinks: '{newThought}'");
+        //SetState(null);
 
         if (currentThought != null) currentThought.Exit();
         currentThought = newThought;
@@ -71,7 +72,7 @@ public class ParentController : MonoBehaviour
     {
         float fowardValue = Vector3.Dot(navMeshAgent.velocity, transform.forward);
         animator.SetFloat("Forward", fowardValue);
-        print($"{name} {animator.GetFloat("Foward")} {fowardValue}");
+        //print($"{name} {animator.GetFloat("Foward")} {fowardValue}");
     }
 
     private void TimeMultiplierChanged(float multiplier)

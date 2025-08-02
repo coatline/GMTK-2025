@@ -45,5 +45,5 @@ public class ParentMoveState : ParentState
         parent.Nav.enabled = false;
     }
 
-    public override string StateName => $"Moving to {target.name}";
+    public override string ActionName => $"Moving to {target.name}";
 }

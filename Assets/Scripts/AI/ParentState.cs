@@ -21,5 +21,5 @@ public abstract class ParentState
     public virtual void Enter() { }
     public virtual void Exit() { }
 
-    public abstract string StateName { get; }
+    public abstract string ActionName { get; }
 }

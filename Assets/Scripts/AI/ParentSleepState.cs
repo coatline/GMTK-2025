@@ -28,5 +28,5 @@ public class ParentSleepState : ParentState
         Debug.Log("Exiting Sleep!");
     }
 
-    public override string StateName => "Sleeping";
+    public override string ActionName => "Sleeping.";
 }

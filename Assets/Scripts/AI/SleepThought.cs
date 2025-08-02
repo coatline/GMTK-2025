@@ -6,10 +6,12 @@ public class SleepThought : ParentThought
     [SerializeField] ParentController parent;
 
     ParentSleepState sleepState;
+    ParentMoveState moveState;
     IntervalTimer sleepTimer;
 
     private void Start()
     {
+        moveState = new ParentMoveState(bed.SleepPosition, 1f, parent);
         sleepState = new ParentSleepState(bed, parent);
         sleepTimer = new IntervalTimer(10f, true);
     }
@@ -21,20 +23,19 @@ public class SleepThought : ParentThought
 
     public override void Think()
     {
-        if (parent.GetDistanceFrom(bed.SleepPosition) < 1f)
-        {
-            parent.SetState(new ParentMoveState(bed.SleepPosition, 1f, parent/*, this, this*/));
-            return;
-        }
-
         if (parent.CurrentState != sleepState)
         {
-            sleepTimer.Start();
-            parent.SetState(sleepState);
+            if (parent.GetDistanceFrom(bed.SleepPosition) > 1f)
+                parent.SetState(moveState);
+            else
+            {
+                sleepTimer.Start();
+                parent.SetState(sleepState);
+            }
         }
         else if (sleepTimer.DecrementIfRunning(TimeManager.I.MinutesDeltaTime))
         {
-            sleepTimer.Stop();
+            sleepTimer.Start();
             parent.SetThought(null);
         }
     }

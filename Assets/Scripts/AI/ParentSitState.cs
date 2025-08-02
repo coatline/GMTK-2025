@@ -3,16 +3,16 @@ using UnityEngine.AI;
 
 public class ParentSitState : ParentState
 {
-    readonly Transform desk;
+    readonly Transform chair;
 
-    public ParentSitState(Transform desk, ParentController parent, ParentState nextState = null, ParentState rootState = null) : base(parent, nextState, rootState)
+    public ParentSitState(Transform chair, ParentController parent, ParentState nextState = null, ParentState rootState = null) : base(parent, nextState, rootState)
     {
-        this.desk = desk;
+        this.chair = chair;
     }
 
     public override void Enter()
     {
-        parent.transform.rotation = Quaternion.LookRotation(desk.forward);
+        parent.transform.rotation = Quaternion.LookRotation(chair.forward);
     }
 
     public override void Update()
@@ -26,5 +26,5 @@ public class ParentSitState : ParentState
 
     }
 
-    public override string StateName => "Sit";
+    public override string ActionName => "Sitting.";
 }

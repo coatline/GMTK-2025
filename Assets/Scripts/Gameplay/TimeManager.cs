@@ -16,8 +16,9 @@ public class TimeManager : Singleton<TimeManager>
 
     public int Day { get; private set; }
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         timedCallbacks = new List<TimedCallback>();
         ScheduleFunction(new TimedCallback(24, NewDay));
     }

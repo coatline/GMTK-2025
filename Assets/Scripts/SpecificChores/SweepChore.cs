@@ -23,13 +23,13 @@ public class SweepChore : ChoreStation
         for (int i = 0; i < newTotal; i++)
         {
             Leaf newLeaf = Instantiate(leafPrefab, leafSpawnCenter.position + new Vector3(Random.Range(-leafSpawnArea.x, leafSpawnArea.x), 0, Random.Range(-leafSpawnArea.y, leafSpawnArea.y)), Quaternion.Euler(0, 0, Random.Range(0, 360f)), transform);
-            newLeaf.Destroyed += Leaf_Destroyed;
+            newLeaf.LeftPorch += Leaf_Destroyed;
         }
     }
 
     private void Leaf_Destroyed(Leaf leaf)
     {
-        leaf.Destroyed -= Leaf_Destroyed;
+        leaf.LeftPorch -= Leaf_Destroyed;
         choreData.PercentageComplete = 1 - (--remainingLeaves / (float)totalLeaves);
 
         if (remainingLeaves == 0)
@@ -49,4 +49,17 @@ public class SweepChore : ChoreStation
         totalLeaves = 0;
         base.Complete();
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        if (leafSpawnCenter == null) return;
+
+        Gizmos.color = Color.green;
+        Vector3 center = leafSpawnCenter.position + new Vector3(0, 0.05f, 0);
+        Vector3 size = new Vector3(leafSpawnArea.x * 2f, 0.1f, (leafSpawnArea.y * 2f));
+
+        Gizmos.DrawWireCube(center, size);
+    }
+#endif
 }

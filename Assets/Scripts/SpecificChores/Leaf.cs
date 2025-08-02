@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Leaf : MonoBehaviour
 {
-    public event System.Action<Leaf> Destroyed;
+    public event System.Action<Leaf> LeftPorch;
 
     [SerializeField] float gravityScale = 0.3f;
     [SerializeField] float airSpinStrength = 30f;
@@ -57,12 +57,12 @@ public class Leaf : MonoBehaviour
         rb.AddTorque(airSpinStrength * Time.fixedDeltaTime * Random.onUnitSphere, ForceMode.VelocityChange);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("DestroyArea"))
+        if (other.CompareTag("PorchArea"))
         {
-            Destroyed?.Invoke(this);
-            Destroy(gameObject);
+            LeftPorch?.Invoke(this);
+            Destroy(gameObject, 5f);
         }
     }
 }

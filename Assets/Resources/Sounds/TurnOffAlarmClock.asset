@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc28e158617a3664787c3f2d95069fc2, type: 3}
-  m_Name: ToggleLight
+  m_Name: TurnOffAlarmClock
   m_EditorClassIdentifier: 
   clips:
   - {fileID: 8300000, guid: 8bd8cc8fa1326fe4fb2d9fb757fbec85, type: 3}

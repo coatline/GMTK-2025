@@ -55,6 +55,7 @@ public class ParentController : MonoBehaviour
     {
         pursuePlayerTimer = new IntervalTimer(pursuePlayerTime);
         TimeManager.I.TimeMultiplierChanged += TimeMultiplierChanged;
+        navMeshAgent.avoidancePriority = Random.Range(0, 100);
     }
 
     void Update()
@@ -75,8 +76,11 @@ public class ParentController : MonoBehaviour
         // Are we in the right position?
         if (distance <= currentState.MinDistance)
         {
-            if (navMeshAgent.isStopped == false)
+            if (navMeshAgent.enabled)
+            {
                 navMeshAgent.isStopped = true;
+                navMeshAgent.enabled = false;
+            }
 
             parentSpeechController.Say($"Doing {currentState.GetType().Name}");
 
@@ -85,16 +89,19 @@ public class ParentController : MonoBehaviour
         }
         else
         {
+            navMeshAgent.enabled = true;
+            navMeshAgent.isStopped = false;
+
             // Move to the target position
             navMeshAgent.SetDestination(currentState.Target.position);
-            navMeshAgent.isStopped = false;
-            parentSpeechController.Say($"Moving dist: {distance}");
+            parentSpeechController.Say($"Moving dist: {distance}. {navMeshAgent.velocity.magnitude}");
         }
 
         if (navMeshAgent.pathStatus == NavMeshPathStatus.PathPartial || navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
         {
             print($"NO PATH! {navMeshAgent.pathStatus}");
-            currentState.Exit();
+            //currentState.Exit();
+            //SwitchState(null);
         }
     }
 
@@ -171,6 +178,7 @@ public class ParentController : MonoBehaviour
     {
         float fowardValue = Vector3.Dot(navMeshAgent.velocity, transform.forward);
         animator.SetFloat("Forward", fowardValue);
+        print($"{name} {animator.GetFloat("Foward")} {fowardValue}");
     }
 
     private void TimeMultiplierChanged(float multiplier)

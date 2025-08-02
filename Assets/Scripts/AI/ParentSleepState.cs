@@ -3,6 +3,7 @@ using UnityEngine.AI;
 
 public class ParentSleepState : ParentState
 {
+    [SerializeField] Animator animator;
     [SerializeField] Bed bed;
 
     bool isLyingDown;
@@ -28,20 +29,24 @@ public class ParentSleepState : ParentState
 
     void LieDown()
     {
+        animator.enabled = false;
         isLyingDown = true;
         transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-        Debug.Log("Parent is lying down in bed.");
+        transform.position = bed.SleepPosition.position;
+        print("Parent is lying down in bed.");
     }
 
     public override void Exit()
     {
-        print("Exiting Sleep!");
+        animator.enabled = true;
         transform.rotation = Quaternion.identity;
+        transform.position = bed.WakePosition.position;
         sleep = 0;
+        print("Exiting Sleep!");
     }
 
     public override float MinDistance => 1.5f;
-    public override Transform Target => bed.transform;
+    public override Transform Target => bed.WakePosition;
 }
 
 //public enum StateType

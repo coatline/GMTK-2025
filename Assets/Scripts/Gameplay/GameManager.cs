@@ -39,7 +39,7 @@ public class GameManager : Singleton<GameManager>
     private IEnumerator Start()
     {
         yield return null;
-        player.SleepController.SetSleeping(bed);
+        player.SleepController.QuickSetSleeping(bed);
     }
 
     public void BuyItem(ItemType item)

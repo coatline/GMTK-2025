@@ -5,37 +5,31 @@ public class ParentWorkState : ParentState
 {
     [SerializeField] Transform deskTarget;
     [SerializeField] float sitDistance = 0.5f;
-    [SerializeField] NavMeshAgent agent;
 
     bool isSitting = false;
+    float work;
 
     public override void Enter()
     {
         isSitting = false;
-
-        if (deskTarget != null && agent != null)
-        {
-            agent.SetDestination(deskTarget.position);
-        }
     }
 
     public override void Exit()
     {
-        if (agent != null) agent.isStopped = false;
-
+        print("Exiting Work!");
         // Reset posture or stand up
         transform.rotation = Quaternion.identity;
+        work = 0;
     }
 
-    public override void Perform(float deltaTime)
+    public override void Perform()
     {
-        if (isSitting) return;
+        work += TimeManager.I.MinutesDeltaTime;
 
-        if (agent.remainingDistance <= sitDistance)
-        {
-            agent.isStopped = true;
-            transform.rotation = Quaternion.LookRotation(deskTarget.forward);
-        }
+        if (work > 10)
+            parentController.SwitchState(null);
+
+        transform.rotation = Quaternion.LookRotation(deskTarget.forward);
     }
 
     //void SitAtDesk()
@@ -51,4 +45,7 @@ public class ParentWorkState : ParentState
     //{
 
     //}
+
+    public override float MinDistance => 1f;
+    public override Transform Target => deskTarget;
 }

@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class SleepController : PlayerState
 {
-    const int SLEEP_TIME_MULTIPLIER = 120;
+    const int SLEEP_TIME_MULTIPLIER = 17;
 
     [SerializeField] EyesCloseAnimation sleepAnimation;
     [SerializeField] PlayerController playerController;
@@ -17,7 +17,13 @@ public class SleepController : PlayerState
 
     Coroutine goingToSleepCoroutine;
     Coroutine sleepingCoroutine;
+    bool isSleeping;
     Bed bed;
+
+    private void Start()
+    {
+        TimeManager.I.ScheduleFunction(new TimedCallback(8, AlarmOff, true));
+    }
 
     public void GetInBed(Bed bed)
     {
@@ -36,12 +42,16 @@ public class SleepController : PlayerState
     {
         sleepAnimation.StartFade(1f, 1f);
         cameraAnimator.Animate(new CameraCommand(cameraAnimator.NormalPosition, -bed.transform.forward + new Vector3(0, 0.75f, 0), 0.5f));
-        yield return new WaitForSeconds(1.25f);
+        yield return new WaitForSeconds(1.3f);
 
-        SetSleepState();
+        EnterSleep();
+
+        yield return new WaitForSeconds(0.5f);
+
+        TimeManager.I.SetTimeMultiplier(SLEEP_TIME_MULTIPLIER);
     }
 
-    public void SetSleeping(Bed bed, bool setTimeModifier = false)
+    public void QuickSetSleeping(Bed bed, bool setTimeModifier = false)
     {
         this.bed = bed;
 
@@ -52,14 +62,15 @@ public class SleepController : PlayerState
         sleepAnimation.SetAlpha(1f);
         cameraAnimator.Animate(new CameraCommand(cameraAnimator.NormalPosition, -bed.transform.forward + new Vector3(0, 0.75f, 0), 0.01f));
 
-        SetSleepState(setTimeModifier);
+        EnterSleep();
+
+        if(setTimeModifier)
+            TimeManager.I.SetTimeMultiplier(SLEEP_TIME_MULTIPLIER);
     }
 
-    void SetSleepState(bool speedTime = true)
+    void EnterSleep()
     {
-        if (speedTime)
-            TimeManager.I.SetTimeMultiplier(SLEEP_TIME_MULTIPLIER);
-
+        isSleeping = true;
         sleepingUI.SetActive(true);
         audioSource.Play();
         sleepingCoroutine = StartCoroutine(SleepingAnimation());
@@ -70,6 +81,7 @@ public class SleepController : PlayerState
         if (goingToSleepCoroutine != null) StopCoroutine(goingToSleepCoroutine);
         if (sleepingCoroutine != null) StopCoroutine(sleepingCoroutine);
 
+        isSleeping = false;
         audioSource.Stop();
         SoundPlayer.I.PlaySound("GetOutOfBed", transform.position);
 
@@ -78,6 +90,12 @@ public class SleepController : PlayerState
         TimeManager.I.SetTimeMultiplier(1);
         transform.position = bed.WakePosition.position;
         StartCoroutine(GetUpAnimation());
+    }
+
+    void AlarmOff()
+    {
+        if (isSleeping)
+            TimeManager.I.SetTimeMultiplier(1f);
     }
 
     IEnumerator GetUpAnimation()

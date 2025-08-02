@@ -6,6 +6,7 @@ public class AlarmClock : MonoBehaviour, IInteractable
 {
     [SerializeField] AudioSource audioSource;
     [SerializeField] TMP_Text timeText;
+    [SerializeField] float ringTime;
 
     public bool CanInteract(Interactor interactor) => audioSource.isPlaying;
     public void Interact(Interactor interactor)
@@ -26,7 +27,14 @@ public class AlarmClock : MonoBehaviour, IInteractable
 
     IEnumerator AutoOff()
     {
-        yield return new WaitForSeconds(10f);
+        float timer = 0;
+
+        while (timer < ringTime)
+        {
+            timer += TimeManager.I.DeltaTime;
+            yield return null;
+        }
+
         audioSource.Stop();
     }
 

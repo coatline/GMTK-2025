@@ -1,27 +1,186 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ParentController : MonoBehaviour
 {
+    public event System.Action SeePlayer;
+    public event System.Action BrokeVisionOfPlayer;
+    public event System.Action LostPlayer;
+
     //[SerializeField] List<ScheduledState> routine;
     [SerializeField] ParentSpeechController parentSpeechController;
-    [SerializeField] List<PlayerState> playerStates;
+    [SerializeField] List<ParentState> parentStates;
+    [SerializeField] NavMeshAgent navMeshAgent;
+    [SerializeField] float pursuePlayerTime;
+    [SerializeField] Transform lookPosition;
     [SerializeField] LayerMask playerLayer;
     [SerializeField] float detectionRange;
-    [SerializeField] Transform lookPosition;
+    [SerializeField] float movementSpeed;
+    [SerializeField] float angularSpeed;
+    [SerializeField] float acceleration;
+    [SerializeField] Animator animator;
 
-    private ParentState currentState;
-    private int nextIndex = 0;
+
+    IntervalTimer pursuePlayerTimer;
+    Vector2 playerLastSeenPosition;
+    ParentState currentState;
+    bool validLastSeen;
+
+    Transform player;
+    public Transform Player
+    {
+        get => player;
+        set
+        {
+            if (value == player) return;
+
+            // If we are about to set the player to null, record where we last saw him.
+            if (value == null)
+            {
+                BrokeVisionOfPlayer?.Invoke();
+                playerLastSeenPosition = player.transform.position;
+                validLastSeen = true;
+                player = value;
+            }
+            else
+            {
+                player = value;
+                SeePlayer?.Invoke();
+            }
+        }
+    }
 
     private void Start()
     {
-
+        pursuePlayerTimer = new IntervalTimer(pursuePlayerTime);
+        TimeManager.I.TimeMultiplierChanged += TimeMultiplierChanged;
     }
 
     void Update()
     {
         DetectPlayer();
-        //TryChangeState();
+        DoBrain();
+        Animate();
+    }
+
+
+    void DoBrain()
+    {
+        if (currentState == null)
+            ChooseRandomState();
+
+        float distance = Vector3.Distance(transform.position, new Vector3(currentState.Target.position.x, transform.position.y, currentState.Target.position.z));
+
+        // Are we in the right position?
+        if (distance <= currentState.MinDistance)
+        {
+            if (navMeshAgent.isStopped == false)
+            {
+                print($"Made it. {distance}");
+                navMeshAgent.isStopped = true;
+            }
+
+            parentSpeechController.Say($"Doing {currentState.GetType().Name}");
+
+            // Perform the state.
+            currentState.Perform();
+        }
+        else
+        {
+            // Move to the target position
+            navMeshAgent.SetDestination(currentState.Target.position);
+            navMeshAgent.isStopped = false;
+            parentSpeechController.Say($"Moving dist: {distance}");
+        }
+
+        if (navMeshAgent.pathStatus == NavMeshPathStatus.PathPartial || navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
+        {
+            print($"NO PATH! {navMeshAgent.pathStatus}");
+            currentState.Exit();
+        }
+    }
+
+    void ChooseRandomState()
+    {
+        SwitchState(parentStates[Random.Range(0, parentStates.Count)]);
+    }
+
+    public void SwitchState(ParentState newState)
+    {
+        if (currentState != null) currentState.Exit();
+        currentState = newState;
+        if (currentState != null) currentState.Enter();
+    }
+
+    void DetectPlayer()
+    {
+        Vector3 origin = lookPosition.position;
+        Vector3 forward = lookPosition.forward;
+
+        float totalFOV = 60f;
+        float increment = 5f;
+
+        List<Vector3> directions = new List<Vector3>();
+
+        int rayCount = Mathf.FloorToInt(totalFOV / increment);
+        float halfFOV = totalFOV / 2f;
+
+        for (int i = -rayCount; i <= rayCount; i++)
+        {
+            float angle = i * increment;
+            if (Mathf.Abs(angle) > halfFOV) continue;
+
+            Vector3 dir = Quaternion.Euler(0, angle, 0) * forward;
+            directions.Add(dir);
+        }
+
+        bool sawPlayer = false;
+
+        foreach (var dir in directions)
+        {
+            if (Physics.Raycast(origin, dir, out RaycastHit hit, detectionRange, playerLayer))
+            {
+                if (hit.collider.CompareTag("Player") == false)
+                {
+                    Debug.DrawRay(origin, dir * detectionRange, Color.red);
+                    return;
+                }
+
+                sawPlayer = true;
+                Player = hit.collider.transform;
+                pursuePlayerTimer.Start();
+                Debug.DrawRay(origin, dir * detectionRange, Color.green);
+            }
+            else
+                Debug.DrawRay(origin, dir * detectionRange, Color.red);
+        }
+
+        if (sawPlayer == false)
+        {
+            Player = null;
+
+            if (pursuePlayerTimer.DecrementIfRunning(TimeManager.I.MinutesDeltaTime))
+            {
+                // Exit chase state (if in it). TODO
+                validLastSeen = false;
+                pursuePlayerTimer.Stop();
+                LostPlayer?.Invoke();
+            }
+        }
+    }
+
+    void Animate()
+    {
+        float fowardValue = Vector3.Dot(navMeshAgent.velocity, transform.forward);
+        animator.SetFloat("Forward", fowardValue);
+    }
+
+    private void TimeMultiplierChanged(float multiplier)
+    {
+        navMeshAgent.speed = movementSpeed * TimeManager.I.TimeMultiplier;
+        navMeshAgent.angularSpeed = angularSpeed * TimeManager.I.TimeMultiplier;
+        navMeshAgent.acceleration = acceleration * TimeManager.I.TimeMultiplier;
     }
 
     //void TryChangeState()
@@ -37,26 +196,6 @@ public class ParentController : MonoBehaviour
     //    // Wrap at end of day
     //    if (currentHour < routine[0].hour) nextIndex = 0;
     //}
-
-    void SwitchState(ParentState newState)
-    {
-        if (currentState != null) currentState.Exit();
-        currentState = newState;
-        if (currentState != null) currentState.Enter();
-    }
-
-    void DetectPlayer()
-    {
-        Ray ray = new Ray(lookPosition.transform.position, lookPosition.transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, detectionRange, playerLayer))
-        {
-            Debug.Log("Player detected: " + hit.collider.name);
-            // GameObject player = hit.collider.gameObject;
-        }
-
-        Debug.DrawRay(lookPosition.position, lookPosition.transform.forward * detectionRange, Color.red);
-    }
-
 
     [System.Serializable]
     public class ScheduledState

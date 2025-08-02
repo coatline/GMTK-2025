@@ -385,7 +385,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce98196b9d77db143a71c489a0df0a76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightBulb: {fileID: 6617550818854322042}
+  lightBulbs:
+  - {fileID: 6617550818854322042}
 --- !u!54 &3872723990186732913
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -442,7 +443,7 @@ Transform:
   m_GameObject: {fileID: 8995494452222109055}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.457, z: 0}
+  m_LocalPosition: {x: 0, y: 0.4489, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children:

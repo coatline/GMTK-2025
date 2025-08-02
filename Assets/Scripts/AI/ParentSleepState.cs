@@ -3,7 +3,6 @@ using UnityEngine.AI;
 
 public class ParentSleepState : ParentState
 {
-    [SerializeField] NavMeshAgent navMeshAgent;
     [SerializeField] Bed bed;
 
     bool isLyingDown;
@@ -12,20 +11,19 @@ public class ParentSleepState : ParentState
     public override void Enter()
     {
         isLyingDown = false;
-
-        if (navMeshAgent != null)
-            navMeshAgent.SetDestination(bed.transform.position);
     }
 
-    public override void Perform(float deltaTime)
+    public override void Perform()
     {
-        if (isLyingDown) return;
-
-        if (navMeshAgent.remainingDistance <= 0.5f)
+        if (sleep > 10)
         {
-            navMeshAgent.isStopped = true;
-            LieDown();
+            parentController.SwitchState(null);
         }
+        else
+            sleep += TimeManager.I.MinutesDeltaTime;
+
+        if (isLyingDown == false)
+            LieDown();
     }
 
     void LieDown()
@@ -37,9 +35,13 @@ public class ParentSleepState : ParentState
 
     public override void Exit()
     {
-        navMeshAgent.isStopped = false;
+        print("Exiting Sleep!");
         transform.rotation = Quaternion.identity;
+        sleep = 0;
     }
+
+    public override float MinDistance => 1.5f;
+    public override Transform Target => bed.transform;
 }
 
 //public enum StateType

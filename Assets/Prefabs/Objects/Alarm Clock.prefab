@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 4579517282080197011}
   timeText: {fileID: 3472518300278343976}
+  ringTime: 8
 --- !u!54 &8097997512966204513
 Rigidbody:
   m_ObjectHideFlags: 0

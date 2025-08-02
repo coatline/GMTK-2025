@@ -42,7 +42,7 @@ public class Plant : MonoBehaviour
 
     void Update()
     {
-        WaterPercentage -= TimeManager.I.WorldDeltaTime / hoursToDry;
+        WaterPercentage -= TimeManager.I.HoursDeltaTime / hoursToDry;
 
         float deathRate = 0f;
         if (WaterPercentage <= 0.05f)
@@ -50,7 +50,7 @@ public class Plant : MonoBehaviour
         else if (WaterPercentage < 0.2f)
             deathRate = 0.5f;
 
-        PlantHealthPercentage -= (TimeManager.I.WorldDeltaTime * deathRate) / hoursToDie;
+        PlantHealthPercentage -= (TimeManager.I.HoursDeltaTime * deathRate) / hoursToDie;
     }
 
     void OnCollisionEnter(Collision collision)

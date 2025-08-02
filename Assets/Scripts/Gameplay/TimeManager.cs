@@ -5,28 +5,36 @@ using UnityEngine;
 
 public class TimeManager : Singleton<TimeManager>
 {
+    public event System.Action<float> TimeMultiplierChanged;
     public event System.Action NewDay;
 
-    [Header("Time Settings")]
     [Range(0f, 24f)]
     [SerializeField] float currentHour;
-    [SerializeField] float timeMultiplier;
+    [SerializeField] float realMinutesPerDay;
 
     List<TimedCallback> timedCallbacks;
 
+    public float TimeMultiplier { get; private set; }
     public int Day { get; private set; }
+
+    float secondsPerGameHour;
+    float secondsPerGameMinute;
+
 
     protected override void Awake()
     {
         base.Awake();
         timedCallbacks = new List<TimedCallback>();
         ScheduleFunction(new TimedCallback(24, NewDay));
+        secondsPerGameHour = (realMinutesPerDay * 60f) / 24f;
+        secondsPerGameMinute = secondsPerGameHour / 60f;
+        TimeMultiplier = 1;
     }
 
     void UpdateTime()
     {
         float prevHour = currentHour;
-        currentHour += WorldDeltaTime;
+        currentHour += HoursDeltaTime;
 
         for (int i = timedCallbacks.Count - 1; i >= 0; i--)
         {
@@ -50,7 +58,7 @@ public class TimeManager : Singleton<TimeManager>
                 timedCallbacks[i].triggeredToday = false;
         }
 
-        DebugMenu.I.DisplayValue("Time", currentHour.ToString("F2"));
+        DebugMenu.I.DisplayValue("Time", $"{currentHour.ToString("F2")} {GetTimeString(currentHour, false)}");
     }
 
     void Update()
@@ -63,12 +71,18 @@ public class TimeManager : Singleton<TimeManager>
     /// </summary>
     public float GetHour => currentHour;
     public float TimeNormalized => currentHour / 24f;
-    public float WorldDeltaTime => Time.deltaTime * (timeMultiplier / 60f);
-    public string GetCurrentTimeString() => GetTimeString(currentHour);
-    public void SetTimeMultiplier(float multiplier) => timeMultiplier = multiplier;
+    public float DeltaTime => Time.deltaTime * TimeMultiplier;
+    public float HoursDeltaTime => DeltaTime / secondsPerGameHour;
+    public float MinutesDeltaTime => DeltaTime / secondsPerGameMinute;
     public void ScheduleFunction(TimedCallback timedCallback) => timedCallbacks.Add(timedCallback);
     public void RemoveScheduledFunction(TimedCallback timedCallback) => timedCallbacks.Remove(timedCallback);
+    public void SetTimeMultiplier(float multiplier)
+    {
+        TimeMultiplier = multiplier;
+        TimeMultiplierChanged?.Invoke(TimeMultiplier);
+    }
 
+    public string GetCurrentTimeString() => GetTimeString(currentHour);
     public static string GetTimeString(float hour, bool roundToHalfHour = true)
     {
         int totalMinutes = Mathf.FloorToInt(hour * 60f);

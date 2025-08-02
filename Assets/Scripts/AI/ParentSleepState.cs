@@ -4,8 +4,6 @@ using UnityEngine.AI;
 public class ParentSleepState : ParentState
 {
     readonly Bed bed;
-    bool isLyingDown;
-    float sleep;
 
     public ParentSleepState(Bed bed, ParentController parent, ParentState nextState = null, ParentState rootState = null) : base(parent, nextState, rootState)
     {
@@ -14,24 +12,13 @@ public class ParentSleepState : ParentState
 
     public override void Enter()
     {
-        isLyingDown = true;
         parent.Animator.enabled = false;
         parent.transform.SetPositionAndRotation(bed.SleepPosition.position, Quaternion.Euler(90f, 0f, 0f));
-        sleep = 0;
     }
 
     public override void Update()
     {
-        if (parent.GetDistanceFrom(bed.SleepPosition) < 1f)
-        {
-            parent.SetState(new ParentMoveState(bed.SleepPosition, 1f, parent, this, this));
-            return;
-        }
-
-        if (sleep > 10)
-            parent.SetState(NextState);
-        else
-            sleep += TimeManager.I.MinutesDeltaTime;
+        // TODO: Increase sleep attribute
     }
 
     public override void Exit()
@@ -41,5 +28,5 @@ public class ParentSleepState : ParentState
         Debug.Log("Exiting Sleep!");
     }
 
-    public override string Name => "Sleeping";
+    public override string StateName => "Sleeping";
 }

@@ -3,55 +3,43 @@ using UnityEngine.AI;
 
 public class ParentSleepState : ParentState
 {
-    [SerializeField] Animator animator;
-    [SerializeField] Bed bed;
-
+    readonly Bed bed;
     bool isLyingDown;
     float sleep;
 
+    public ParentSleepState(Bed bed, ParentController parent, ParentState nextState = null, ParentState rootState = null) : base(parent, nextState, rootState)
+    {
+        this.bed = bed;
+    }
+
     public override void Enter()
     {
-        isLyingDown = false;
+        isLyingDown = true;
+        parent.Animator.enabled = false;
+        parent.transform.SetPositionAndRotation(bed.SleepPosition.position, Quaternion.Euler(90f, 0f, 0f));
+        sleep = 0;
     }
 
-    public override void Perform()
+    public override void Update()
     {
-        if (sleep > 10)
+        if (parent.GetDistanceFrom(bed.SleepPosition) < 1f)
         {
-            parentController.SwitchState(null);
+            parent.SetState(new ParentMoveState(bed.SleepPosition, 1f, parent, this, this));
+            return;
         }
+
+        if (sleep > 10)
+            parent.SetState(NextState);
         else
             sleep += TimeManager.I.MinutesDeltaTime;
-
-        if (isLyingDown == false)
-            LieDown();
-    }
-
-    void LieDown()
-    {
-        animator.enabled = false;
-        isLyingDown = true;
-        transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-        transform.position = bed.SleepPosition.position;
-        print("Parent is lying down in bed.");
     }
 
     public override void Exit()
     {
-        animator.enabled = true;
-        transform.rotation = Quaternion.identity;
-        transform.position = bed.WakePosition.position;
-        sleep = 0;
-        print("Exiting Sleep!");
+        parent.Animator.enabled = true;
+        parent.transform.SetPositionAndRotation(bed.WakePosition.position, Quaternion.identity);
+        Debug.Log("Exiting Sleep!");
     }
 
-    public override float MinDistance => 1.5f;
-    public override Transform Target => bed.WakePosition;
+    public override string Name => "Sleeping";
 }
-
-//public enum StateType
-//{
-//    Idle,
-//    Moving,
-//    Working
-//}

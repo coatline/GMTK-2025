@@ -10,7 +10,6 @@ public class ParentController : MonoBehaviour
 
     //[SerializeField] List<ScheduledState> routine;
     [SerializeField] ParentSpeechController parentSpeechController;
-    [SerializeField] List<ParentState> parentStates;
     [SerializeField] NavMeshAgent navMeshAgent;
     [SerializeField] float pursuePlayerTime;
     [SerializeField] Transform lookPosition;
@@ -20,11 +19,13 @@ public class ParentController : MonoBehaviour
     [SerializeField] float angularSpeed;
     [SerializeField] float acceleration;
     [SerializeField] Animator animator;
+    [SerializeField] Bed bed;
 
 
     IntervalTimer pursuePlayerTimer;
     Vector2 playerLastSeenPosition;
     ParentState currentState;
+    List<ParentState> states;
     bool validLastSeen;
 
     Transform player;
@@ -51,11 +52,20 @@ public class ParentController : MonoBehaviour
         }
     }
 
+    public NavMeshAgent Nav => navMeshAgent;
+    public Animator Animator => animator;
+
+
     private void Start()
     {
         pursuePlayerTimer = new IntervalTimer(pursuePlayerTime);
         TimeManager.I.TimeMultiplierChanged += TimeMultiplierChanged;
         navMeshAgent.avoidancePriority = Random.Range(0, 100);
+        states = new List<ParentState>()
+        {
+            new ParentWorkState(),
+            new ParentSleepState(bed, this)
+        };
     }
 
     void Update()
@@ -65,57 +75,28 @@ public class ParentController : MonoBehaviour
         Animate();
     }
 
-
     void DoBrain()
     {
         if (currentState == null)
             ChooseRandomState();
 
-        float distance = Vector3.Distance(transform.position, new Vector3(currentState.Target.position.x, transform.position.y, currentState.Target.position.z));
-
-        // Are we in the right position?
-        if (distance <= currentState.MinDistance)
-        {
-            if (navMeshAgent.enabled)
-            {
-                navMeshAgent.isStopped = true;
-                navMeshAgent.enabled = false;
-            }
-
-            parentSpeechController.Say($"Doing {currentState.GetType().Name}");
-
-            // Perform the state.
-            currentState.Perform();
-        }
-        else
-        {
-            navMeshAgent.enabled = true;
-            navMeshAgent.isStopped = false;
-
-            // Move to the target position
-            navMeshAgent.SetDestination(currentState.Target.position);
-            parentSpeechController.Say($"Moving dist: {distance}. {navMeshAgent.velocity.magnitude}");
-        }
-
-        if (navMeshAgent.pathStatus == NavMeshPathStatus.PathPartial || navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid)
-        {
-            print($"NO PATH! {navMeshAgent.pathStatus}");
-            //currentState.Exit();
-            //SwitchState(null);
-        }
+        parentSpeechController.Say($"Doing {currentState.GetType().Name} {navMeshAgent.enabled}");
+        currentState.Update();
     }
 
     void ChooseRandomState()
     {
-        SwitchState(parentStates[Random.Range(0, parentStates.Count)]);
+        SetState(states[Random.Range(0, states.Count)]);
     }
 
-    public void SwitchState(ParentState newState)
+    public void SetState(ParentState newState)
     {
         if (currentState != null) currentState.Exit();
         currentState = newState;
         if (currentState != null) currentState.Enter();
     }
+
+    public float GetDistanceFrom(Transform target) => Vector3.Distance(transform.position, new Vector3(target.position.x, transform.position.y, target.position.z));
 
     void DetectPlayer()
     {
@@ -174,6 +155,7 @@ public class ParentController : MonoBehaviour
         }
     }
 
+    
     void Animate()
     {
         float fowardValue = Vector3.Dot(navMeshAgent.velocity, transform.forward);
@@ -187,20 +169,6 @@ public class ParentController : MonoBehaviour
         navMeshAgent.angularSpeed = angularSpeed * TimeManager.I.TimeMultiplier;
         navMeshAgent.acceleration = acceleration * TimeManager.I.TimeMultiplier;
     }
-
-    //void TryChangeState()
-    //{
-    //    float currentHour = TimeManager.I.GetHour;
-
-    //    if (nextIndex < routine.Count && currentHour >= routine[nextIndex].hour)
-    //    {
-    //        SwitchState(routine[nextIndex].state);
-    //        nextIndex++;
-    //    }
-
-    //    // Wrap at end of day
-    //    if (currentHour < routine[0].hour) nextIndex = 0;
-    //}
 
     [System.Serializable]
     public class ScheduledState

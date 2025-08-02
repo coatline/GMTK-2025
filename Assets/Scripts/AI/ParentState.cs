@@ -1,13 +1,25 @@
 using UnityEngine;
 
-public abstract class ParentState : MonoBehaviour
+public abstract class ParentState
 {
-    [SerializeField] protected ParentController parentController;
+    public ParentState NextState { get; protected set; }
+    public ParentState RootState { get; private set; }
 
-    public abstract void Perform();
-    public abstract void Enter();
-    public abstract void Exit();
+    protected ParentController parent;
 
-    public abstract float MinDistance { get; }
-    public abstract Transform Target { get; }
+    protected ParentState(ParentController parent, ParentState nextState = null, ParentState rootState = null)
+    {
+        if (rootState == null)
+            rootState = this;
+
+        this.parent = parent;
+        RootState = rootState;
+        NextState = nextState;
+    }
+
+    public abstract void Update();
+    public virtual void Enter() { }
+    public virtual void Exit() { }
+
+    public abstract string Name { get; }
 }
